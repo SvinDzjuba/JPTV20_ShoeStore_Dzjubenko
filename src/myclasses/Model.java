@@ -8,7 +8,7 @@ package myclasses;
 public class Model {
     private String ModelName;
     private String ModelSize;
-    private Double Price;
+    private float Price;
     private String ShoeFirm;
 
     public String getModelName() {
@@ -27,11 +27,11 @@ public class Model {
         this.ModelSize = ModelSize;
     }
 
-    public Double getPrice() {
+    public float getPrice() {
         return Price;
     }
 
-    public void setPrice(Double Price) {
+    public void setPrice(float Price) {
         this.Price = Price;
     }
 

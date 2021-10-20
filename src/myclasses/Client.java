@@ -4,7 +4,7 @@ public class Client {
     private String FirstName; 
     private String LastName;
     private String Phone;
-    private Double Money;
+    private float Money;
 
     public String getFirstName() {
         return FirstName;
@@ -30,11 +30,11 @@ public class Client {
         this.Phone = Phone;
     }
 
-    public Double getMoney() {
+    public float getMoney() {
         return Money;
     }
 
-    public void setMoney(Double Money) {
+    public void setMoney(float Money) {
         this.Money = Money;
     }
 

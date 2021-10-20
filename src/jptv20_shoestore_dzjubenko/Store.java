@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package jptv20_shoestore_dzjubenko;
 
 import java.util.Calendar;
@@ -15,6 +10,7 @@ import myclasses.Model;
 
 public class Store {
     Scanner scanner = new Scanner(System.in);
+    float gain = 0;
     private Model[] model = new Model[10];
     private Client[] client = new Client[10];
     private History[] histories = new History[10];
@@ -75,27 +71,12 @@ public class Store {
                             histories[i] = addHistory();
                             break;
                         }
-                    }
-                    
 
-                break;
-                case 6:
-                    int n = 0;
-                    System.out.println("----- Список выданной обуви -----");
-                    for (int i = 0; i < histories.length; i++) {
-                        if(histories[i] != null && histories[i].getReturndate() == null){
-                            System.out.println(histories[i].toString());
-                            System.out.println("Обувь "+histories[i].getModel().getModelName()
-                                +" выдана клиенту "+histories[i].getClient().getFirstName()
-                                +" "+ histories[i].getClient().getLastName());
-                            n++;
-                        }
-                    }                   
-                    if(n<1){
-                        System.out.println("----- Данная обувь отсутствуют -----");
                     }
-                    System.out.println("");
-                    break;                
+                    break; 
+                case 6:
+                    System.out.println("----- Доход магазина -----");                    
+                    System.out.println(gain);
                 default:
                     System.out.println("----- Введите номер из списка ----- ");
             }
@@ -106,14 +87,14 @@ public class Store {
             System.out.printf("Введите название обуви: ");
             model.setModelName(scanner.nextLine());
             System.out.println("");
-            System.out.printf("Введите размер обуви: ");
+            System.out.printf("Введите размер обуви в US: ");
             model.setModelSize(scanner.nextLine());
             System.out.println("");
             System.out.printf("Введите фирму обуви: ");
             model.setShoeFirm(scanner.nextLine());
             System.out.println("");
             System.out.printf("Введите цену обуви: ");
-            model.setPrice(scanner.nextDouble());
+            model.setPrice(scanner.nextFloat());
             return model;
     
     }
@@ -129,7 +110,7 @@ public class Store {
             client.setPhone(scanner.nextLine());
             System.out.println("");
             System.out.printf("Введите количество денег клиента: ");
-            client.setMoney(scanner.nextDouble());scanner.nextLine();
+            client.setMoney(scanner.nextFloat());scanner.nextLine();
             System.out.println("=================================");
             
             return client;
@@ -148,6 +129,7 @@ public class Store {
             int numberModel = scanner.nextInt();scanner.nextLine();
             for (int i = 0; i < client.length; i++) {
                 if(client[i] != null){
+                    System.out.println(client[i].toString());
                 }
             }
             System.out.println("Введите номер клиента: ");
@@ -155,16 +137,16 @@ public class Store {
             histories1.setModel(model[numberModel - 1]);
             histories1.setClient(client[numberClient - 1]);
             Calendar c = new GregorianCalendar();
-            double MMoney = model[numberClient-1].getPrice();
-            double CMoney = client[numberClient-1].getMoney();
-            double finMoney = 0;
+            float MMoney = model[numberClient-1].getPrice();
+            float CMoney = client[numberClient-1].getMoney();
+            float finMoney = 0;
             if(CMoney >= MMoney){
-                finMoney = CMoney - MMoney;
-                
+                finMoney = CMoney - MMoney;   
+                client[numberClient-1].setMoney(client[numberClient-1].getMoney()-model[numberClient-1].getPrice());
+                gain += model[numberModel-1].getPrice();        
             }else{
                 System.out.println("Недостаточно средств!");
-            }
-            histories1.getClient().setMoney(finMoney);
+            }            
             
             
             return histories1;

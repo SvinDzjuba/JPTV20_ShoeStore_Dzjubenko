@@ -1,6 +1,8 @@
-package myclasses;
+package entity;
 
-public class Client {
+import java.io.Serializable;
+
+public class Client implements Serializable{
     private String FirstName; 
     private String LastName;
     private String Phone;

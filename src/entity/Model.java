@@ -3,9 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package myclasses;
+package entity;
 
-public class Model {
+import java.io.Serializable;
+
+public class Model implements Serializable{
     private String ModelName;
     private String ModelSize;
     private float Price;
@@ -47,6 +49,9 @@ public class Model {
     public String toString() {
         return "Model{" + "ModelName=" + ModelName + ", ModelSize=" + ModelSize + ", Price=" + Price + ", ShoeFirm=" + ShoeFirm + '}';
     }
-   
+    
+    
 }
+
+   
 

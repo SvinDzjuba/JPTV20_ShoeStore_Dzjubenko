@@ -158,9 +158,9 @@ public class Store {
         private void printListModels(){
             for (int i = 0; i < models.size(); i++) {
                 if(models.get(i) != null){
-                    System.out.println(models.get(i).toString());
+                   System.out.println(models.get(i).toString());
                 }
-            break;
+            break; 
             }
         }
         

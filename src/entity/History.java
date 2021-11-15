@@ -11,12 +11,18 @@ import javax.persistence.Id;
 public class History implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private Client client;
     private Model model;
-    private Date givendate;
-    private Date returndate;
-    private Long Id;
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long Id) {
+        this.id = Id;
+    }
+    
     public Client getClient() {
         return client;
     }
@@ -33,33 +39,10 @@ public class History implements Serializable{
         this.model = model;
     }
 
-    public Date getGivendate() {
-        return givendate;
-    }
-
-    public void setGivendate(Date givendate) {
-        this.givendate = givendate;
-    }
-
-    public Date getReturndate() {
-        return returndate;
-    }
-
-    public void setReturndate(Date returndate) {
-        this.returndate = returndate;
-    }
-
-    public Long getId() {
-        return Id;
-    }
-
-    public void setId(Long Id) {
-        this.Id = Id;
-    }
-
     @Override
     public String toString() {
-        return "History{" + "client=" + client + ", model=" + model + ", givendate=" + givendate + ", returndate=" + returndate + ", Id=" + Id + '}';
+        return "History{" + "id=" + id + ", client=" + client + ", model=" + model + '}';
     }
+
    
 }

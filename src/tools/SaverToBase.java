@@ -17,16 +17,16 @@ import javax.persistence.Persistence;
  * @author pupil
  */
 public class SaverToBase implements Keeping{
-    private EntityManagerFactory emf = Persistence.createEntityManagerFactory("JPTV20_ShoeStore_DzjubenkoPU");
+    private EntityManagerFactory emf = Persistence.createEntityManagerFactory("ShoeShopDzjubenko");
     private EntityManager em = emf.createEntityManager();
     private EntityTransaction tx = em.getTransaction();
 
     @Override
-    public void saveModels(List<Model> books) {
+    public void saveModels(List<Model> models) {
         tx.begin();
-            for (int i = 0; i < books.size(); i++) {
-                if(books.get(i).getId() == null){
-                    em.persist(books.get(i));
+            for (int i = 0; i < models.size(); i++) {
+                if(models.get(i).getId() == null){
+                    em.persist(models.get(i));
                 }
             }
         tx.commit();
@@ -34,24 +34,24 @@ public class SaverToBase implements Keeping{
 
     @Override
     public List<Model> loadModels() {
-        List<Model> books=null;
+        List<Model> models=null;
         try {
-            books = em.createQuery("SELECT book FROM Model book")
+            models = em.createQuery("SELECT model FROM Model model")
                 .getResultList();
         } catch (Exception e) {
             return new ArrayList<>();
         }
-        return books;
+        return models;
     }
     
 
 
     @Override
-    public void saveClients(List<Client> readers) {
+    public void saveClients(List<Client> clients) {
         tx.begin();
-            for (int i = 0; i < readers.size(); i++) {
-                if(readers.get(i).getId() == null){
-                    em.persist(readers.get(i));
+            for (int i = 0; i < clients.size(); i++) {
+                if(clients.get(i).getId() == null){
+                    em.persist(clients.get(i));
                 }
             }
         tx.commit();
@@ -59,14 +59,14 @@ public class SaverToBase implements Keeping{
 
     @Override
     public List<Client> loadClients() {
-         List<Client> readers=null;
+         List<Client> clients=null;
         try {
-            readers = em.createQuery("SELECT reader FROM Client reader")
+            clients = em.createQuery("SELECT reader FROM Client client")
                 .getResultList();
         } catch (Exception e) {
             return new ArrayList<>();
         }
-        return readers;
+        return clients;
     }
 
     @Override
@@ -94,11 +94,24 @@ public class SaverToBase implements Keeping{
 
     @Override
     public void saveGains(List<Gain> gains) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            tx.begin();
+            for (int i = 0; i < gains.size(); i++) {
+                if(gains.get(i).getId() == null){
+                    em.persist(gains.get(i));
+                }
+            }
+        tx.commit();
     }
 
     @Override
     public List<Gain> loadGains() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<Gain> gains=null;
+        try {
+            gains = em.createQuery("SELECT history FROM History history")
+                .getResultList();
+        } catch (Exception e) {
+            return new ArrayList<>();
+        }
+        return gains;
     }
-}
+    }

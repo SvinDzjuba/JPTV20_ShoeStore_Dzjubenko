@@ -10,11 +10,20 @@ import javax.persistence.Id;
 public class Client implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String FirstName; 
     private String LastName;
     private String Phone;
     private float Money;
-    private Long Id;
+
+    
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long Id) {
+        this.id = Id;
+    }
 
     public String getFirstName() {
         return FirstName;
@@ -48,17 +57,8 @@ public class Client implements Serializable{
         this.Money = Money;
     }
 
-    public Long getId() {
-        return Id;
-    }
-
-    public void setId(Long Id) {
-        this.Id = Id;
-    }
-
     @Override
     public String toString() {
-        return "Client{" + "FirstName=" + FirstName + ", LastName=" + LastName + ", Phone=" + Phone + ", Money=" + Money + ", Id=" + Id + '}';
-    }
-    
+        return "Client{" + "id=" + id + ", FirstName=" + FirstName + ", LastName=" + LastName + ", Phone=" + Phone + ", Money=" + Money + '}';
+    } 
 }

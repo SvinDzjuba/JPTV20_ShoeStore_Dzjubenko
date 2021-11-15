@@ -15,11 +15,19 @@ import javax.persistence.Id;
 public class Model implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String ModelName;
     private String ModelSize;
     private float Price;
     private String ShoeFirm;
-    private Long Id;
+    
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getModelName() {
         return ModelName;
@@ -53,18 +61,10 @@ public class Model implements Serializable{
         this.ShoeFirm = ShoeFirm;
     }
 
-    public Long getId() {
-        return Id;
-    }
-
-    public void setId(Long Id) {
-        this.Id = Id;
-    }
-
     @Override
     public String toString() {
-        return "Model{" + "ModelName=" + ModelName + ", ModelSize=" + ModelSize + ", Price=" + Price + ", ShoeFirm=" + ShoeFirm + ", Id=" + Id + '}';
+        return "Model{" + "id=" + id + ", ModelName=" + ModelName + ", ModelSize=" + ModelSize + ", Price=" + Price + ", ShoeFirm=" + ShoeFirm + '}';
     }
-   
+
 }
 

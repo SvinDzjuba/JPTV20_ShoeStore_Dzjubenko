@@ -3,13 +3,23 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package myclasses;
+package entity;
 
-public class Model {
+import java.io.Serializable;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity
+public class Model implements Serializable{
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String ModelName;
     private String ModelSize;
     private float Price;
     private String ShoeFirm;
+    private Long Id;
 
     public String getModelName() {
         return ModelName;
@@ -43,9 +53,17 @@ public class Model {
         this.ShoeFirm = ShoeFirm;
     }
 
+    public Long getId() {
+        return Id;
+    }
+
+    public void setId(Long Id) {
+        this.Id = Id;
+    }
+
     @Override
     public String toString() {
-        return "Model{" + "ModelName=" + ModelName + ", ModelSize=" + ModelSize + ", Price=" + Price + ", ShoeFirm=" + ShoeFirm + '}';
+        return "Model{" + "ModelName=" + ModelName + ", ModelSize=" + ModelSize + ", Price=" + Price + ", ShoeFirm=" + ShoeFirm + ", Id=" + Id + '}';
     }
    
 }

@@ -26,7 +26,7 @@ public class SaverToBase implements Keeping{
         tx.begin();
             for (int i = 0; i < models.size(); i++) {
                 if(models.get(i).getId() == null){
-                    em.persist(models.get(i));
+                    em.merge(models.get(i));
                 }
             }
         tx.commit();
@@ -51,7 +51,7 @@ public class SaverToBase implements Keeping{
         tx.begin();
             for (int i = 0; i < clients.size(); i++) {
                 if(clients.get(i).getId() == null){
-                    em.persist(clients.get(i));
+                    em.merge(clients.get(i));
                 }
             }
         tx.commit();
@@ -74,7 +74,7 @@ public class SaverToBase implements Keeping{
         tx.begin();
             for (int i = 0; i < histories.size(); i++) {
                 if(histories.get(i).getId() == null){
-                    em.persist(histories.get(i));
+                    em.merge(histories.get(i));
                 }
             }
         tx.commit();
@@ -94,7 +94,7 @@ public class SaverToBase implements Keeping{
 
     @Override
     public void saveGains(List<Gain> gains) {
-            tx.begin();
+        tx.begin();
             for (int i = 0; i < gains.size(); i++) {
                 if(gains.get(i).getId() == null){
                     em.persist(gains.get(i));
@@ -107,11 +107,11 @@ public class SaverToBase implements Keeping{
     public List<Gain> loadGains() {
         List<Gain> gains=null;
         try {
-            gains = em.createQuery("SELECT history FROM History history")
+            gains = em.createQuery("SELECT gain FROM Gain gain")
                 .getResultList();
         } catch (Exception e) {
             return new ArrayList<>();
         }
         return gains;
     }
-    }
+}

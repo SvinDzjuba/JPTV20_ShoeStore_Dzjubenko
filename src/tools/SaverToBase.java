@@ -34,7 +34,7 @@ public class SaverToBase implements Keeping{
 
     @Override
     public List<Model> loadModels() {
-        List<Model> models=null;
+        List<Model> models = null;
         try {
             models = em.createQuery("SELECT model FROM Model model")
                 .getResultList();
@@ -59,9 +59,9 @@ public class SaverToBase implements Keeping{
 
     @Override
     public List<Client> loadClients() {
-         List<Client> clients=null;
+        List<Client> clients=null;
         try {
-            clients = em.createQuery("SELECT reader FROM Client client")
+            clients = em.createQuery("SELECT client FROM Client client")
                 .getResultList();
         } catch (Exception e) {
             return new ArrayList<>();
@@ -82,7 +82,7 @@ public class SaverToBase implements Keeping{
 
     @Override
     public List<History> loadHistories() {
-         List<History> histories=null;
+        List<History> histories=null;
         try {
             histories = em.createQuery("SELECT history FROM History history")
                 .getResultList();

@@ -10,7 +10,7 @@ import interfaces.Keeping;
 import java.util.ArrayList;
 import java.util.List;
 import tools.SaverToBase;
-import tools.SaverToFile;
+//import tools.SaverToFile;
 
 
 public class Store {
@@ -120,9 +120,9 @@ public class Store {
         private History addHistory(){
             History histories1 = new History();
             System.out.println("Список обуви: ");
-            for (int i = 0; i < gains.size(); i++) {
-                gain=gains.get(i).getAllMoney();
-            }
+//            for (int i = 0; i < gains.size(); i++) {
+//                gain=gains.get(i).getAllMoney();
+//            }
             for (int i = 0; i < models.size(); i++) {
                 if(models.get(i)!=null){
                     System.out.println(models.get(i).toString());
@@ -160,7 +160,10 @@ public class Store {
                 if(models.get(i) != null){
                    System.out.println(models.get(i).toString());
                 }
-            break; 
+                else{
+                    System.out.println("В продаже нет ни одной обуви.");
+                    System.out.println("-----------------------------");
+                }
             }
         }
         
@@ -169,7 +172,9 @@ public class Store {
                 if(clients.get(i) != null){
                     System.out.println(clients.get(i).toString());
                 }
-            break;
+                else{
+                    System.out.println("Список клиентов пуст...");
+                }
             }
         }
         

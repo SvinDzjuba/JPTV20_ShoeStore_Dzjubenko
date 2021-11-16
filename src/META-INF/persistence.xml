@@ -7,7 +7,7 @@
     <class>entity.History</class>
     <class>entity.Model</class>
     <properties>
-      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/ShoeShopDzjubenko? zeroDateTimeBehavior=convertToNull&amp;characterEncoding=utf8&amp;useUnicode=true"/>
+      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/ShoeShopDzjubenko?zeroDateTimeBehavior=convertToNull&amp;characterEncoding=utf8&amp;useUnicode=true"/>
       <property name="javax.persistence.jdbc.user" value="ShoeShopDzjubenko"/>
       <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
       <property name="javax.persistence.jdbc.password" value="ShoeShopDzjubenko"/>

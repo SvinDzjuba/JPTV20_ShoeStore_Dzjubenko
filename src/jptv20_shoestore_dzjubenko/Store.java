@@ -8,6 +8,8 @@ import entity.History;
 import entity.Model;
 import interfaces.Keeping;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 import tools.SaverToBase;
@@ -23,6 +25,13 @@ public class Store {
     private List<Gain> gains = new ArrayList<>();
     //private Keeping keeper = new SaverToFile();
     private Keeping keeper = new SaverToBase();
+     
+    Calendar calendar = Calendar.getInstance();
+    Date date = calendar.getTime();
+    
+    String[] months = {"янв", "фев", "мар", "апр", "май", "июн", "июл", "авг", "сен", "окт", "ноя", "дек"};
+
+    
     
     public Store() {
         models = keeper.loadModels();
@@ -37,11 +46,14 @@ public class Store {
         do{
             System.out.println("Задача - 0: Выход из программы");
             System.out.println("Задача - 1: Добавить Обувь");
+            System.out.println("Задача - 2: Список обуви");
             System.out.println("Задача - 3: Ввод информации о клиенте");
-            System.out.println("Задача - 4: Добавить клиента");
+            System.out.println("Задача - 4: Список всех клиентов");
             System.out.println("Задача - 5: Выдать обувь");
             System.out.println("Задача - 6: Доход магазина");
             System.out.println("Задача - 7: Изменение информации модели");
+            System.out.println("Задача - 8: Изменение информации клиента");
+            System.out.println("Задача - 9: Добавление денег клиенту");
             System.out.printf("Выберите номер задачи: ");
             int task = scanner.nextInt();scanner.nextLine();
             for (int i = 0; i < gains.size(); i++) {
@@ -79,6 +91,15 @@ public class Store {
                 case 7:
                     System.out.println("----- Изменить модель -----");
                     changeModel();
+                case 8:
+                    System.out.println("----- Изменить клиента -----");
+                    changeClient();
+                case 9:
+                    System.out.println("----- Добавить денег клиенту -----");
+                    addMoney();
+                case 10:
+                    System.out.println("----- Доход на определенный месяц -----");
+                    gainForAMonth();
                 default:
                     System.out.println("----- Введите номер из списка ----- ");
             }
@@ -219,38 +240,150 @@ public class Store {
         
         
    
-        
-        
+              
                
         private void changeModel(){
+            System.out.println("Какую модель вы хотите изменить?");
+            printListModels();
+            System.out.println("==============================================");
+            System.out.println("Выберите модель по её ID:");
+            int choice = scanner.nextInt();
             for (int i = 0; i < models.size(); i++) {
-                System.out.println("Какую модель вы хотите изменить?");
-                printListModels();
-                System.out.println("Выберите модель по её ID:");
-                int choice = scanner.nextInt();
-                for (int j = 0; j < models.size(); j++) {
-                    if(choice == models.get(i).getId()){
-                        System.out.println("Что именно вы хотите изменить?");
-                        System.out.println("");
-                        System.out.println("1 - изменить Имя модели");
-                        System.out.println("2 - изменить Размер модели");
-                        System.out.println("3 - изменить Цену модели");
-                        System.out.println("4 - изменить Фирму модели");
-                        int choice1 = scanner.nextInt();
-                        
-                        switch(choice1){
-                            case 1:
-                                models.get(i).setModelName(scanner.nextLine());
-                            case 2:
-                                models.get(i).setModelSize(scanner.nextLine());
-                            case 3:
-                                models.get(i).setPrice(scanner.nextFloat());
-                            case 4:
-                                models.get(i).setShoeFirm(scanner.nextLine()); 
-                        }
-                        int
+                if(choice == models.get(i).getId()){
+
+                    System.out.println("Что именно вы хотите изменить?");
+                    System.out.println("-------------------------------");
+                    System.out.println("1 - изменить Название модели");
+                    System.out.println("2 - изменить Размер модели");
+                    System.out.println("3 - изменить Цену модели");
+                    System.out.println("4 - изменить Фирму модели");
+                    System.out.println("-------------------------------");
+                    int choice1 = scanner.nextInt();scanner.nextLine();
+
+                    switch(choice1){
+                        case 1:
+                            System.out.println("Задайте новое название обуви: ");
+                            models.get(i).setModelName(scanner.nextLine());
+                            keeper.saveModels(models);
+                            break;
+                        case 2:
+                            System.out.println("Задайте новый размер модели");
+                            models.get(i).setModelSize(scanner.nextLine());
+                            keeper.saveModels(models);
+                            break;
+                        case 3:
+                            System.out.println("Задайте новую цену модели");
+                            models.get(i).setPrice(scanner.nextFloat());scanner.nextLine();
+                            keeper.saveModels(models);
+                            break;
+                        case 4:
+                            System.out.println("Задайте новую фирму обуви");
+                            models.get(i).setShoeFirm(scanner.nextLine());
+                            keeper.saveModels(models);
+                            break;
+                        default:
+                            System.out.println("ВВЕДИТЕ НОМЕР ИЗ СПИСКА");
+                        break;
                     }
+                    System.out.println("==================================");
+                }
+                else{
+                    System.out.println("Такой обуви не существует!");         
+                }
+        }
+    }
+        
+        
+        
+        
+        
+        private void changeClient(){
+            System.out.println("Какого клиента вы хотите изменить?");
+            printListClients();
+            System.out.println("==============================================");
+            System.out.println("Выберите клиента по его ID:");
+            int choice2 = scanner.nextInt();
+            for (int i = 0; i < clients.size(); i++) {
+                if(choice2 == clients.get(i).getId()){
+
+                    System.out.println("Что именно вы хотите изменить?");
+                    System.out.println("-------------------------------");
+                    System.out.println("1 - изменить Имя клиента");
+                    System.out.println("2 - изменить Фамилию клиента");
+                    System.out.println("3 - изменить Телефон клиента");
+                    System.out.println("-------------------------------");
+                    int choice3 = scanner.nextInt();scanner.nextLine();
+
+                    switch(choice3){
+                        case 1:
+                            System.out.println("Задайте новое Имя клиенту: ");
+                            clients.get(i).setFirstName(scanner.nextLine());
+                            keeper.saveClients(clients);
+                            break;
+                        case 2:
+                            System.out.println("Задайте новую Фамилию клиенту");
+                            clients.get(i).setLastName(scanner.nextLine());
+                            keeper.saveClients(clients);
+                            break;
+                        case 3:
+                            System.out.println("Задайте новый немер телефона клиенту");
+                            clients.get(i).setPhone(scanner.nextLine());
+                            keeper.saveClients(clients);
+                            break;
+                        default:
+                            System.out.println("ВВЕДИТЕ НОМЕР ИЗ СПИСКА");
+                        break;
+                    }
+                    System.out.println("==================================");
+                }
+                else{
+                    System.out.println("Такого клиента не существует!");         
                 }
             }
         }
-}
+   
+        
+        
+        
+        
+        
+        private void addMoney(){
+            System.out.println("Кому вы хотите добавить денег?");
+            printListClients();
+            System.out.println("Выберите клиента по его ID:");
+            int choice4 = scanner.nextInt();
+            
+            for (int i = 0; i < clients.size(); i++) {
+                if(choice4 == clients.get(i).getId()){
+                    System.out.println("Введите сумму, которую хотите добавить клиенту:");
+                    float givemoney = scanner.nextFloat();scanner.nextLine();
+                    clients.get(i).setMoney(clients.get(i).getMoney() + givemoney);
+                    System.out.println(clients.get(i).getMoney());
+                    break;
+                }
+                else{
+                    System.out.println("Такого клиента не существует!");
+                }
+                
+            }
+            keeper.saveClients(clients);
+        }
+        
+        
+        
+        
+        private void gainForAMonth(){
+            System.out.println("Введите месяц, за который вывести весь доход на экран:");
+            int month = scanner.nextInt();
+            float monthGain = 0;
+            for (int i = 0; i < histories.size(); i++) {
+                if (histories.get(i).getBuy().getMonth()+1 == month) {
+                    monthGain += histories.get(i).getModel().getPrice();
+                }            
+                if (monthGain != 0) {
+                   System.out.println("Доход магазина за " + months[month-1] + ": " + monthGain + "долларов"); 
+                }
+                break;
+            }
+        }
+}           

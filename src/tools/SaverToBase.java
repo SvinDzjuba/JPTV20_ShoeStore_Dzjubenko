@@ -84,7 +84,7 @@ public class SaverToBase implements Keeping{
                 }
                 else{
                     em.merge(histories.get(i));
-                }
+                }              
             }
         tx.commit();
     }

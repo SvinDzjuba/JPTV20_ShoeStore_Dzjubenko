@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 import tools.SaverToBase;
 //import tools.SaverToFile;
 
@@ -27,6 +26,7 @@ public class Store {
     private List<Gain> gains = new ArrayList<>();
     //private Keeping keeper = new SaverToFile();
     private Keeping keeper = new SaverToBase();
+
      
     Gain AllCash = new Gain();
     Calendar calendar = Calendar.getInstance();
@@ -178,15 +178,18 @@ public class Store {
                 clients.get(numberClient-1).setMoney(clients.get(numberClient-1).getMoney()-models.get(numberModel-1).getPrice());
                 gain += models.get(numberModel-1).getPrice();
                 AllCash.setAllMoney(gain);
-                histories1.setBuy(Date.from(LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant()));
+                histories1.setBuy(Date.from(LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant()));                                  
                 AllCash();
-            }else{
+                
+                histories.add(histories1);
+                keeper.saveHistories(histories);      //перенес сохранение сюда из за NullPonter
+            }
+            else{
                 System.out.println("Ќедостаточно средств!");
+                
             }    
             System.out.println("================================");
             
-            histories.add(histories1);
-            keeper.saveHistories(histories);
 
             return histories1;
         }
@@ -230,6 +233,7 @@ public class Store {
             for (int i = 0; i < gains.size(); i++) {
                 if(gain != 0){
                     System.out.println("ƒоход за все врем€ работы: " + gain + " доллара");
+                    break;
                 }
                 else{
                     System.out.println("ћагазин пока что ничего не заработал");
@@ -392,7 +396,7 @@ public class Store {
             for (int i = 0; i < histories.size(); i++) {
                 if (histories.get(i).getBuy().getMonth()+1 == month) {
                     monthGain += histories.get(i).getModel().getPrice();
-                } 
+                }
             }
             if (monthGain != 0) {
                System.out.println("ƒоход магазина за " + months[month-1] + ": " + monthGain + " долларов"); 

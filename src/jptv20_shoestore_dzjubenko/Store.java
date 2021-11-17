@@ -7,6 +7,8 @@ import entity.Gain;
 import entity.History;
 import entity.Model;
 import interfaces.Keeping;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -26,10 +28,11 @@ public class Store {
     //private Keeping keeper = new SaverToFile();
     private Keeping keeper = new SaverToBase();
      
+    Gain AllCash = new Gain();
     Calendar calendar = Calendar.getInstance();
     Date date = calendar.getTime();
     
-    String[] months = {"янв", "фев", "мар", "апр", "май", "июн", "июл", "авг", "сен", "окт", "ноя", "дек"};
+    String[] months = {"январь", "февраль", "март", "апрель", "май", "июнь", "июль", "август", "сентебрь", "октябрь", "ноябрь", "декабрь"};
 
     
     
@@ -38,10 +41,14 @@ public class Store {
         clients = keeper.loadClients();     
         histories = keeper.loadHistories();
         gains = keeper.loadGains();
+        
     }
     
     
     public void run() {
+        for (int i = 0; i < gains.size(); i++) {
+            gain=gains.get(i).getAllMoney();
+        }
         String repeat = "r";
         do{
             System.out.println("Задача - 0: Выход из программы");
@@ -50,15 +57,13 @@ public class Store {
             System.out.println("Задача - 3: Ввод информации о клиенте");
             System.out.println("Задача - 4: Список всех клиентов");
             System.out.println("Задача - 5: Выдать обувь");
-            System.out.println("Задача - 6: Доход магазина");
+            System.out.println("Задача - 6: Доход магазина за все время");
             System.out.println("Задача - 7: Изменение информации модели");
             System.out.println("Задача - 8: Изменение информации клиента");
             System.out.println("Задача - 9: Добавление денег клиенту");
+            System.out.println("Задача - 10: Доход магазина за определенный месяц");
             System.out.printf("Выберите номер задачи: ");
             int task = scanner.nextInt();scanner.nextLine();
-            for (int i = 0; i < gains.size(); i++) {
-                gain=gains.get(i).getAllMoney();
-            }
             switch (task) {
                 case 0:
                     repeat = "d";
@@ -85,21 +90,25 @@ public class Store {
                     addHistory();
                     break; 
                 case 6:
-                    System.out.println("----- Доход магазина -----");                    
+                    System.out.println("----- Доход магазина за все время -----");                    
                     printListAllCash();
                     break;
                 case 7:
                     System.out.println("----- Изменить модель -----");
                     changeModel();
+                    break;
                 case 8:
                     System.out.println("----- Изменить клиента -----");
                     changeClient();
+                    break;
                 case 9:
                     System.out.println("----- Добавить денег клиенту -----");
                     addMoney();
+                    break;
                 case 10:
-                    System.out.println("----- Доход на определенный месяц -----");
+                    System.out.println("----- Доход за определенный месяц -----");
                     gainForAMonth();
+                    break;
                 default:
                     System.out.println("----- Введите номер из списка ----- ");
             }
@@ -109,15 +118,13 @@ public class Store {
         Model model = new Model();
         System.out.printf("Введите название обуви: ");
         model.setModelName(scanner.nextLine());
-        System.out.println("");
         System.out.printf("Введите размер обуви в US: ");
         model.setModelSize(scanner.nextLine());
-        System.out.println("");
         System.out.printf("Введите фирму обуви: ");
         model.setShoeFirm(scanner.nextLine());
-        System.out.println("");
         System.out.printf("Введите цену обуви: ");
         model.setPrice(scanner.nextFloat());
+        System.out.println("================================");
             
         models.add(model);
         keeper.saveModels(models);
@@ -129,13 +136,10 @@ public class Store {
         Client client = new Client();
         System.out.printf("Введите имя клиента: ");
         client.setFirstName(scanner.nextLine());
-        System.out.println("");
         System.out.printf("Введите фамилию клиента: ");
         client.setLastName(scanner.nextLine());
-        System.out.println("");
         System.out.printf("Введите номер телефона клиента: ");
         client.setPhone(scanner.nextLine());
-        System.out.println("");
         System.out.printf("Введите количество денег клиента: ");
         client.setMoney(scanner.nextFloat());scanner.nextLine();
         System.out.println("=================================");
@@ -168,15 +172,18 @@ public class Store {
             int numberClient = scanner.nextInt();scanner.nextLine();
             histories1.setModel(models.get(numberModel - 1));
             histories1.setClient(clients.get(numberClient - 1));
-            float MMoney = models.get(numberClient-1).getPrice();
+            float MMoney = models.get(numberModel-1).getPrice();
             float CMoney = clients.get(numberClient-1).getMoney();
             if(CMoney >= MMoney){
-                clients.get(numberClient-1).setMoney(clients.get(numberClient-1).getMoney()-models.get(numberClient-1).getPrice());
-                gain += models.get(numberModel-1).getPrice();  
+                clients.get(numberClient-1).setMoney(clients.get(numberClient-1).getMoney()-models.get(numberModel-1).getPrice());
+                gain += models.get(numberModel-1).getPrice();
+                AllCash.setAllMoney(gain);
+                histories1.setBuy(Date.from(LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant()));
                 AllCash();
             }else{
                 System.out.println("Недостаточно средств!");
-            }          
+            }    
+            System.out.println("================================");
             
             histories.add(histories1);
             keeper.saveHistories(histories);
@@ -195,9 +202,9 @@ public class Store {
                 }
                 else{
                     System.out.println("В продаже нет ни одной обуви.");
-                    System.out.println("-----------------------------");
                 }
             }
+            System.out.println("================================================");
         }
         
         
@@ -212,6 +219,7 @@ public class Store {
                     System.out.println("Список клиентов пуст...");
                 }
             }
+            System.out.println("=============================================");
         }
         
         
@@ -220,8 +228,14 @@ public class Store {
         
         private void printListAllCash(){
             for (int i = 0; i < gains.size(); i++) {
-                  System.out.println(gains.get(i).getAllMoney());  
+                if(gain != 0){
+                    System.out.println("Доход за все время работы: " + gain + " доллара");
                 }
+                else{
+                    System.out.println("Магазин пока что ничего не заработал");
+                }
+            }
+            System.out.println("==========================================");
         }
         
         
@@ -229,11 +243,7 @@ public class Store {
         
         
         private void AllCash(){
-            for (int i = 0; i < gains.size(); i++) {
-                if (gains.get(i) != null) {
-                    gains.get(i).setAllMoney(gain);    
-                }
-            }
+            gains.add(AllCash);    
             keeper.saveGains(gains);
         }
         
@@ -358,7 +368,9 @@ public class Store {
                     System.out.println("Введите сумму, которую хотите добавить клиенту:");
                     float givemoney = scanner.nextFloat();scanner.nextLine();
                     clients.get(i).setMoney(clients.get(i).getMoney() + givemoney);
-                    System.out.println(clients.get(i).getMoney());
+                    System.out.println("-----------------");
+                    System.out.println("Теперь у клиента "+clients.get(i).getMoney()+" долларов");
+                    System.out.println("===================================");
                     break;
                 }
                 else{
@@ -375,15 +387,19 @@ public class Store {
         private void gainForAMonth(){
             System.out.println("Введите месяц, за который вывести весь доход на экран:");
             int month = scanner.nextInt();
+            System.out.println("===============================");
             float monthGain = 0;
             for (int i = 0; i < histories.size(); i++) {
                 if (histories.get(i).getBuy().getMonth()+1 == month) {
                     monthGain += histories.get(i).getModel().getPrice();
-                }            
-                if (monthGain != 0) {
-                   System.out.println("Доход магазина за " + months[month-1] + ": " + monthGain + "долларов"); 
-                }
-                break;
+                } 
             }
+            if (monthGain != 0) {
+               System.out.println("Доход магазина за " + months[month-1] + ": " + monthGain + " долларов"); 
+            }
+            else{
+                System.out.println("Доход за " + months[month-1] + " нулевой...");
+            }
+            System.out.println("===============================");
         }
 }           

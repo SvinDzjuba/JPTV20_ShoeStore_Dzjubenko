@@ -51,6 +51,9 @@ public class SaverToBase implements Keeping{
         tx.begin();
             for (int i = 0; i < clients.size(); i++) {
                 if(clients.get(i).getId() == null){
+                    em.persist(clients.get(i));
+                }
+                else{
                     em.merge(clients.get(i));
                 }
             }
@@ -74,6 +77,9 @@ public class SaverToBase implements Keeping{
         tx.begin();
             for (int i = 0; i < histories.size(); i++) {
                 if(histories.get(i).getId() == null){
+                    em.persist(histories.get(i));
+                }
+                else{
                     em.merge(histories.get(i));
                 }
             }
@@ -96,8 +102,11 @@ public class SaverToBase implements Keeping{
     public void saveGains(List<Gain> gains) {
         tx.begin();
             for (int i = 0; i < gains.size(); i++) {
-                if(gains.get(i).getId() == null){
+                if (gains.get(i) == null) {
                     em.persist(gains.get(i));
+                }
+                else{
+                    em.merge(gains.get(i));
                 }
             }
         tx.commit();

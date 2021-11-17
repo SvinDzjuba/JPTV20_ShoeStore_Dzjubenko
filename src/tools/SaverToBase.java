@@ -26,6 +26,9 @@ public class SaverToBase implements Keeping{
         tx.begin();
             for (int i = 0; i < models.size(); i++) {
                 if(models.get(i).getId() == null){
+                    em.persist(models.get(i));
+                }
+                else{
                     em.merge(models.get(i));
                 }
             }

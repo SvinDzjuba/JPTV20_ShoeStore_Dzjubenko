@@ -67,7 +67,7 @@ public class Store {
             switch (task) {
                 case 0:
                     repeat = "d";
-                    System.out.println("Пока!");
+                    System.out.println("Всего доброго!!!");
                     break;
                 case 1:
                     System.out.println("---- Добавление обуви ----");
@@ -158,14 +158,21 @@ public class Store {
             System.out.println("Список обуви: ");
             for (int i = 0; i < models.size(); i++) {
                 if(models.get(i)!=null){
-                    System.out.println(models.get(i).toString());
+                    System.out.println(i+1 + "-" + "Название модели - " + models.get(i).getModelName()+ System.lineSeparator() +
+                            "Размер - " + models.get(i).getModelSize() + System.lineSeparator() + 
+                            "Фирма - " + models.get(i).getShoeFirm() + System.lineSeparator() +
+                            "Цена - " + models.get(i).getPrice());
+                    System.out.println("=================================");
                 }
             }
             System.out.println("Введите номер обуви: ");
             int numberModel = scanner.nextInt();scanner.nextLine();
             for (int i = 0; i < clients.size(); i++) {
                 if(clients.get(i) != null){
-                    System.out.println(clients.get(i).toString());
+                    System.out.println(i+1 + "-" + "Имя - " + clients.get(i).getFirstName() + System.lineSeparator() +
+                            "Фамилия - " + clients.get(i).getLastName() + System.lineSeparator() +
+                            "Номер телефона - " + clients.get(i).getPhone() + System.lineSeparator() +
+                            "Количество денежных средств - " + clients.get(i).getMoney());
                 }
             }
             System.out.println("Введите номер клиента: ");
@@ -183,6 +190,9 @@ public class Store {
                 
                 histories.add(histories1);
                 keeper.saveHistories(histories);      //перенес сохранение сюда из за NullPonter
+                System.out.println("Модель " + models.get(numberModel-1).getModelName() + " " +
+                        "продана" + " " + clients.get(numberModel-1).getFirstName() + " " +
+                        clients.get(numberModel-1).getLastName());
             }
             else{
                 System.out.println("Недостаточно средств!");
@@ -232,7 +242,7 @@ public class Store {
         private void printListAllCash(){
             for (int i = 0; i < gains.size(); i++) {
                 if(gain != 0){
-                    System.out.println("Доход за все время работы: " + gain + " доллара");
+                    System.out.println("Доход магазина за все время работы: " + gain + " доллара");
                     break;
                 }
                 else{

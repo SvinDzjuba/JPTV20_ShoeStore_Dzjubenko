@@ -13,7 +13,7 @@ import javax.persistence.Persistence;
  * @author pupil
  */
 public class HistoryFacade extends AbstractFacade<History>{
-    private EntityManagerFactory emf = Persistence.createEntityManagerFactory("ShoeShopDzjubenkoPU");
+    private EntityManagerFactory emf = Persistence.createEntityManagerFactory("JPTV20ShoeShopPU");
     private EntityManager em = emf.createEntityManager();
     private EntityTransaction tx = em.getTransaction();
 

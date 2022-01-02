@@ -22,7 +22,7 @@ public class Singleton {
     }
     
     private void init(){
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("ShoeShopDzjubenkoPU");
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("JPTV20ShoeShopPU");
         em = emf.createEntityManager();
     }
     

@@ -14,38 +14,38 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-/**
- *
- * @author Melnikov
- */
 public class EditComponent extends JPanel{
     private JLabel title;
     private JTextField editor;
-    public EditComponent(String text, int left, int heightPanel, int widthEditor) {
-        initComponents(text, left, heightPanel,widthEditor);
+    
+    public EditComponent(int widthEditor, String text, int widthWindow, int heightPanel) {
+        initComponents(widthEditor, text, widthWindow, heightPanel);
     }
 
-    private void initComponents(String text, int left, int heightPanel,int widthEditor) {
-       this.setPreferredSize(new Dimension(GuiApp.WIDTH_WINDOW,heightPanel));
-       this.setMinimumSize(this.getPreferredSize());
-       this.setMaximumSize(this.getPreferredSize());
-       this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
-       title = new JLabel(text);
-       title.setPreferredSize(new Dimension(left,27));
-       title.setMinimumSize(title.getPreferredSize());
-       title.setMaximumSize(title.getPreferredSize());
-       title.setHorizontalAlignment(JLabel.RIGHT);
-       title.setFont(new Font("Tahoma",0,12));
-       this.add(title);
-       this.add(Box.createRigidArea(new Dimension(5,0)));
-       editor = new JTextField();
-       editor.setPreferredSize(new Dimension(widthEditor,27));
-       editor.setMinimumSize(editor.getPreferredSize());
-       editor.setMaximumSize(editor.getPreferredSize());
-       this.add(editor);
+    private void initComponents(int widthEditor, String text, int widthWindow, int heightPanel) {
+        this.setPreferredSize(new Dimension(widthWindow, heightPanel));
+        this.setMinimumSize(this.getPreferredSize());
+        this.setMaximumSize(this.getPreferredSize());
+        this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
+        
+        title = new JLabel(text);
+        title.setPreferredSize(new Dimension(widthWindow/3, 25));
+        title.setMinimumSize(title.getPreferredSize());
+        title.setMaximumSize(title.getPreferredSize());
+        title.setHorizontalAlignment(JLabel.RIGHT);
+        title.setFont(new Font("Tahoma", 0, 12));
+        this.add(title);
+        
+        this.add(Box.createRigidArea(new Dimension(10,0)));
+        
+        editor = new JTextField();
+        editor.setPreferredSize(new Dimension(widthEditor, 25));
+        editor.setMinimumSize(editor.getPreferredSize());
+        editor.setMaximumSize(editor.getPreferredSize());
+        this.add(editor);
     }
-
-    public JTextField getEditor() {
+    
+    public JTextField getEditor(){
         return editor;
     }
     

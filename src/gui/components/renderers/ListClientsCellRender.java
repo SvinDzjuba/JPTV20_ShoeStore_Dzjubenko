@@ -5,15 +5,18 @@
  */
 package gui.components.renderers;
 
-import entity.Model;
-import java.awt.*;
-import javax.swing.*;
+import entity.Client;
+import java.awt.Color;
+import java.awt.Component;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.UIManager;
 
 /**
  *
- * @author User
+ * @author pupil
  */
-public class ListModelsCellRenderer extends DefaultListCellRenderer{
+public class ListClientsCellRender {
     private final Color background = new Color(0, 100, 255, 15);
     private final Color defaultBackground = (Color) UIManager.get("List.background");
     @Override
@@ -23,13 +26,13 @@ public class ListModelsCellRenderer extends DefaultListCellRenderer{
                 isSelected, cellHasFocus);
             if(component instanceof JLabel){
                 JLabel label = (JLabel) component;
-                Model model = (Model) value;
+                Client client = (Client) value;
                 StringBuilder sb = new StringBuilder();
                 label.setText(String.format("%s %s %s %s"
-                        ,"Название: " + model.getModelName() + "      "
-                        ,"Размер: " + model.getModelSize() + " US      "
-                        ,"Фирма: " + model.getShoeFirm() + "      "
-                        ,"Цена: " + model.getPrice() + "      "
+                        ,"Имя: " + client.getFirstName() + "      "
+                        ,"Фамилия: " + client.getLastName()+ " US      "
+                        ,"Номер телефона: " + client.getPhone()+ "      "
+                        ,"Количество денег: " + client.getMoney()+ "      "
                 ));
                 if(!isSelected){
                     label.setBackground(index % 2 == 0 ? background : defaultBackground);

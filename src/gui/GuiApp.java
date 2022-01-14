@@ -1,6 +1,8 @@
 package gui;
 
+import entity.Client;
 import entity.Model;
+import facade.ClientFacade;
 import facade.ModelFacade;
 import gui.components1.ButtonComponent;
 import gui.components1.CaptionComponent;
@@ -18,15 +20,28 @@ public class GuiApp extends JFrame{
     public static final int WIDTH_WINDOW = 800;
     public static final int HEIGHT_WINDOW = 600;
     private CaptionComponent captionComponent;
+    private ButtonComponent buttonComponent;
+    
     private EditComponent modelNameComponent;
     private EditComponent modelSizeComponent;
-    private ButtonComponent buttonComponent;
     private EditComponent modelPriceComponent;
     private EditComponent modelFirmComponent;
     private ListModelsComponent listModelsComponent;
+    
     private CaptionComponent addModelCaption;
     private CaptionComponent addClientCaption;
     private CaptionComponent addModelInfo;
+    private CaptionComponent addClientInfo;
+    
+    private EditComponent clientNameComponent;
+    private EditComponent clientLastNameComponent;
+    private EditComponent clientPhoneComponent;
+    private EditComponent clientMoneyComponent;
+    
+    private CaptionComponent buyModelCaption;
+    private ListModelsComponent modelsList;
+    
+
     
     public GuiApp() {
         initComponents();
@@ -50,15 +65,15 @@ public class GuiApp extends JFrame{
         managerTabbed.addTab("Добавить модель", addModelPanel);
             addModelCaption = new CaptionComponent(WIDTH_WINDOW, 170, "Добавление обуви", 25, 1);
             addModelPanel.add(addModelCaption);
-            modelNameComponent = new EditComponent(260, "Название обуви",WIDTH_WINDOW, 35);
+            modelNameComponent = new EditComponent("Название обуви",270, 30, 250);
             addModelPanel.add(modelNameComponent);
-            modelSizeComponent = new EditComponent(260, "Размер обуви", WIDTH_WINDOW, 35);
+            modelSizeComponent = new EditComponent("Размер обуви", 270, 30, 50);
             addModelPanel.add(modelSizeComponent);
-            modelPriceComponent = new EditComponent(260, "Цена обуви", WIDTH_WINDOW, 35);
+            modelPriceComponent = new EditComponent("Цена обуви", 270, 30, 80);
             addModelPanel.add(modelPriceComponent);
-            modelFirmComponent = new EditComponent(260, "Фирма обуви", WIDTH_WINDOW, 35);
+            modelFirmComponent = new EditComponent("Фирма обуви", 270, 30, 170);
             addModelPanel.add(modelFirmComponent);
-            buttonComponent = new ButtonComponent("Добавить обувь", WIDTH_WINDOW, 30, 140);
+            buttonComponent = new ButtonComponent("Добавить обувь", WIDTH_WINDOW, 140, 170);
             addModelPanel.add(buttonComponent);
             buttonComponent.getButton().addActionListener(new ActionListener() {
                 @Override
@@ -110,7 +125,76 @@ public class GuiApp extends JFrame{
         
         JPanel addClientPanel = new JPanel();
         managerTabbed.addTab("Добавить клиента", addClientPanel);
-            addClientCaption = new CaptionComponent(WIDTH_WINDOW, 30, "Изменение модели", 18, 1);
+            addClientCaption = new CaptionComponent(WIDTH_WINDOW, 140, "Добавление клиента", 25, 1);
+            addClientPanel.add(addClientCaption);
+            clientNameComponent = new EditComponent("Имя", 310, 30, 210);
+            addClientPanel.add(clientNameComponent);
+            clientLastNameComponent = new EditComponent("Фамилия", 310, 30, 210);
+            addClientPanel.add(clientLastNameComponent);
+            clientPhoneComponent = new EditComponent("Номер телефона", 310, 30, 130);
+            addClientPanel.add(clientPhoneComponent);
+            clientMoneyComponent = new EditComponent("Количество денег", 310, 30, 80);
+            addClientPanel.add(clientMoneyComponent);
+            buttonComponent = new ButtonComponent("Добавить клиента", WIDTH_WINDOW, 140, 170);
+            addClientPanel.add(buttonComponent);
+            buttonComponent.getButton().addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    Client client = new Client();
+                    if(clientNameComponent.getEditor().getText().isEmpty()){
+                        addClientInfo.getCaption().setForeground(Color.red);
+                        addClientInfo.getCaption().setText("Введите имя");
+                        return;
+                    }
+                    client.setFirstName(clientNameComponent.getEditor().getText());
+                    //name
+                    if(clientLastNameComponent.getEditor().getText().isEmpty()){
+                        addClientInfo.getCaption().setForeground(Color.red);
+                        addClientInfo.getCaption().setText("Введите фамилию");
+                        return;
+                    }
+                    client.setLastName(clientLastNameComponent.getEditor().getText());
+                    //lastname
+                    if(clientPhoneComponent.getEditor().getText().isEmpty()){
+                        addClientInfo.getCaption().setForeground(Color.red);
+                        addClientInfo.getCaption().setText("Введите номер телефона");
+                        return;
+                    }
+                    client.setPhone(clientPhoneComponent.getEditor().getText());
+                    //phone
+                    try {
+                        client.setMoney(Float.parseFloat(clientPhoneComponent.getEditor().getText()));
+                    } catch (Exception ex) {
+                        addClientInfo.getCaption().setForeground(Color.red);
+                        addClientInfo.getCaption().setText("Введите количество денег, можно использовать '.'");
+                        return;
+                    }
+                    //money
+                    
+                    ClientFacade clientFacade = new ClientFacade(Client.class);
+                    try {
+                        clientFacade.create(client);
+                        addClientInfo.getCaption().setForeground(Color.BLUE);
+                        addClientInfo.getCaption().setText("Клиент успешно добавлен");
+                        clientNameComponent.getEditor().setText("");
+                        clientLastNameComponent.getEditor().setText("");
+                        clientPhoneComponent.getEditor().setText("");
+                        clientMoneyComponent.getEditor().setText("");
+                    } catch (Exception ex) {
+                        addClientInfo.getCaption().setForeground(Color.RED);
+                        addClientInfo.getCaption().setText("Не удалось добавить клиента");
+                    }
+
+                }
+            });
+
+        JPanel buyModelPanel = new JPanel();
+        managerTabbed.addTab("Купить модель", buyModelPanel);
+            buyModelCaption = new CaptionComponent(WIDTH_WINDOW, 140, "Покупка модели", 25, 1);
+            buyModelPanel.add(buyModelCaption);
+            modelsList = new ListModelsComponent("Модели", 130, 150, 500);
+            buyModelPanel.add(modelsList);
+            clientList = new ListClientsComponent("Клиенты", 130, 150, 500);
             
     }
     

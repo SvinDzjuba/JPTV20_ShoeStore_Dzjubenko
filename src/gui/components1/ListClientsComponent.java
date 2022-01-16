@@ -1,10 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package gui.components1;
-
 
 import entity.Client;
 import facade.ClientFacade;
@@ -13,21 +7,21 @@ import gui.components.renderers.ListClientsCellRenderer;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.util.List;
-import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.DefaultListClient;
+import javax.swing.DefaultListModel;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.ListClient;
-import javax.swing.ListSelectionClient;
+import javax.swing.ListModel;
+import javax.swing.ListSelectionModel;
 
 /**
  *
  * @author User
  */
+
 public class ListClientsComponent extends JPanel{
     private JLabel title;
     private JList<Client> list;
@@ -66,9 +60,9 @@ public class ListClientsComponent extends JPanel{
        title.setFont(new Font("Tahoma",0,12));
        this.add(title);
        this.add(Box.createRigidArea(new Dimension(5,0)));
-       list.setClient(getListClient());
+       list.setModel(getListModel());
        list.setCellRenderer(new ListClientsCellRenderer());
-       list.setSelectionMode(ListSelectionClient.MULTIPLE_INTERVAL_SELECTION);
+       list.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
        list.setLayoutOrientation(JList.HEIGHT);
        JScrollPane scrollPane = new JScrollPane(list);
        scrollPane.setPreferredSize(new Dimension(widthEditor,heightPanel));
@@ -79,15 +73,15 @@ public class ListClientsComponent extends JPanel{
        this.add(scrollPane);
     }
 
-    private ListClient<Client> getListClient() {
-        ClientFacade modelFacade = new ClientFacade(Client.class);
-        List<Client> clients = modelFacade.findAll();
+    private ListModel<Client> getListModel() {
+        ClientFacade clientFacade = new ClientFacade(Client.class);
+        List<Client> clients = clientFacade.findAll();
         
-        DefaultListClient<Client> defaultListClient = new DefaultListClient<>();
-        for (Client model : clients) {
-            defaultListClient.addElement(model);
+        DefaultListModel<Client> defaultListModel = new DefaultListModel<>();
+        for (Client client : clients) {
+            defaultListModel.addElement(client);
         }
-        return defaultListClient;
+        return defaultListModel;
     }
 
     public JList<Client> getList() {

@@ -26,10 +26,10 @@ public class ListModelsCellRenderer extends DefaultListCellRenderer{
                 Model model = (Model) value;
                 StringBuilder sb = new StringBuilder();
                 label.setText(String.format("%s %s %s %s"
-                        ,"Название: " + model.getModelName() + "      "
-                        ,"Размер: " + model.getModelSize() + " US      "
-                        ,"Фирма: " + model.getShoeFirm() + "      "
-                        ,"Цена: " + model.getPrice() + "      "
+                        ,"Название: " + model.getModelName() + "  "
+                        ,"Размер: " + model.getModelSize() + "US  "
+                        ,"Фирма: " + model.getShoeFirm() + "  "
+                        ,"Цена: " + model.getPrice() + "  "
                 ));
                 if(!isSelected){
                     label.setBackground(index % 2 == 0 ? background : defaultBackground);

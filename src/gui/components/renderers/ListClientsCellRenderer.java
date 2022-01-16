@@ -6,17 +6,14 @@
 package gui.components.renderers;
 
 import entity.Client;
-import java.awt.Color;
-import java.awt.Component;
-import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.UIManager;
+import java.awt.*;
+import javax.swing.*;
 
 /**
  *
  * @author pupil
  */
-public class ListClientsCellRender {
+public class ListClientsCellRenderer extends DefaultListCellRenderer{
     private final Color background = new Color(0, 100, 255, 15);
     private final Color defaultBackground = (Color) UIManager.get("List.background");
     @Override
@@ -30,7 +27,7 @@ public class ListClientsCellRender {
                 StringBuilder sb = new StringBuilder();
                 label.setText(String.format("%s %s %s %s"
                         ,"Имя: " + client.getFirstName() + "      "
-                        ,"Фамилия: " + client.getLastName()+ " US      "
+                        ,"Фамилия: " + client.getLastName()+ "      "
                         ,"Номер телефона: " + client.getPhone()+ "      "
                         ,"Количество денег: " + client.getMoney()+ "      "
                 ));

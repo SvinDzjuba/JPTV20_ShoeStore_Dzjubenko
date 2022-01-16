@@ -7,6 +7,7 @@ import facade.ModelFacade;
 import gui.components1.ButtonComponent;
 import gui.components1.CaptionComponent;
 import gui.components1.EditComponent;
+import gui.components1.ListClientsComponent;
 import gui.components1.ListModelsComponent;
 import java.awt.*;
 import java.awt.event.*;
@@ -40,6 +41,7 @@ public class GuiApp extends JFrame{
     
     private CaptionComponent buyModelCaption;
     private ListModelsComponent modelsList;
+    private ListClientsComponent clientsList;
     
 
     
@@ -125,7 +127,7 @@ public class GuiApp extends JFrame{
         
         JPanel addClientPanel = new JPanel();
         managerTabbed.addTab("Добавить клиента", addClientPanel);
-            addClientCaption = new CaptionComponent(WIDTH_WINDOW, 140, "Добавление клиента", 25, 1);
+            addClientCaption = new CaptionComponent(WIDTH_WINDOW, 180, "Добавление клиента", 25, 1);
             addClientPanel.add(addClientCaption);
             clientNameComponent = new EditComponent("Имя", 310, 30, 210);
             addClientPanel.add(clientNameComponent);
@@ -184,7 +186,6 @@ public class GuiApp extends JFrame{
                         addClientInfo.getCaption().setForeground(Color.RED);
                         addClientInfo.getCaption().setText("Не удалось добавить клиента");
                     }
-
                 }
             });
 
@@ -192,10 +193,10 @@ public class GuiApp extends JFrame{
         managerTabbed.addTab("Купить модель", buyModelPanel);
             buyModelCaption = new CaptionComponent(WIDTH_WINDOW, 140, "Покупка модели", 25, 1);
             buyModelPanel.add(buyModelCaption);
-            modelsList = new ListModelsComponent("Модели", 130, 150, 500);
+            modelsList = new ListModelsComponent("Модели", 10, 120, WIDTH_WINDOW/2-50);
             buyModelPanel.add(modelsList);
-            clientList = new ListClientsComponent("Клиенты", 130, 150, 500);
-            
+            clientsList = new ListClientsComponent("Клиенты", 400, 120, WIDTH_WINDOW/2-50);
+            buyModelPanel.add(clientsList);
     }
     
     public static void main(String[] args) {

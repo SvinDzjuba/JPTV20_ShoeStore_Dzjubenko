@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package gui.components1;
 
 import entity.Model;
@@ -12,7 +7,6 @@ import gui.components.renderers.ListModelsCellRenderer;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.util.List;
-import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
@@ -27,17 +21,11 @@ import javax.swing.ListSelectionModel;
  *
  * @author User
  */
+
 public class ListModelsComponent extends JPanel{
     private JLabel title;
     private JList<Model> list;
-    /**
-     * Список обуви магазина с заголовком
-     * @param xORy расположение компонентов на панели: true - горизонтальное, false - вертикальное
-     * @param text текст в JLabel
-     * @param left ширина JLabel
-     * @param heightPanel высота панели компонента
-     * @param widthEditor ширина JList
-     */
+
     public ListModelsComponent(boolean xORy,String text, int left, int heightPanel, int widthEditor) {
         initComponents(xORy, text, left, heightPanel,widthEditor);
     }

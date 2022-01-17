@@ -1,27 +1,17 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package gui.components1;
 
-import gui.GuiApp;
-import java.awt.Dimension;
-import java.awt.Font;
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
+import javax.swing.*;
+import java.awt.*;
+
 
 public class ButtonComponent extends JPanel{
     private JButton button;
     
-    public ButtonComponent(String text, int widthWindow, int heightPanel, int widthButton, int heightButton) {
-        initComponents(text, widthWindow, heightPanel, widthButton, heightButton);
+    public ButtonComponent(String text, int widthWindow, int heightPanel, int widthButton) {
+        initComponents(text, widthWindow, heightPanel, widthButton);
     }
 
-    private void initComponents(String text, int widthWindow, int heightPanel, int widthButton, int heightButton) {
+    private void initComponents(String text, int widthWindow, int heightPanel, int widthButton) {
        this.setPreferredSize(new Dimension(widthWindow, heightPanel));
        this.setMinimumSize(this.getPreferredSize());
        this.setMaximumSize(this.getPreferredSize());

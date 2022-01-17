@@ -1,16 +1,8 @@
 package gui;
 
-import entity.Client;
-import entity.History;
-import entity.Model;
-import facade.ClientFacade;
-import facade.HistoryFacade;
-import facade.ModelFacade;
-import gui.components1.ButtonComponent;
-import gui.components1.CaptionComponent;
-import gui.components1.EditComponent;
-import gui.components1.ListClientsComponent;
-import gui.components1.ListModelsComponent;
+import entity.*;
+import facade.*;
+import gui.components1.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.time.LocalDate;
@@ -23,9 +15,9 @@ import javax.swing.*;
  * @author User
  */
 public class GuiApp extends JFrame{
-    public static final int WIDTH_WINDOW = 800;
-    public static final int HEIGHT_WINDOW = 600;
-    private CaptionComponent captionComponent;
+    public static final int WINDOW_WIDTH = 800;
+    public static final int WINDOW_HEIGHT = 600;
+    private EditComponent captionComponent;
     private ButtonComponent buttonComponent;
     
     private EditComponent modelNameComponent;
@@ -33,11 +25,11 @@ public class GuiApp extends JFrame{
     private EditComponent modelPriceComponent;
     private EditComponent modelFirmComponent;
     
-    private CaptionComponent addModelCaption;
-    private CaptionComponent addClientCaption;
-    private CaptionComponent addModelInfo;
-    private CaptionComponent addClientInfo;
-    private CaptionComponent buyModelCaption;
+    private LabelComponent addModelCaption;
+    private LabelComponent addClientCaption;
+    private LabelComponent addModelInfo;
+    private LabelComponent addClientInfo;
+    private LabelComponent buyModelCaption;
     
     private EditComponent clientNameComponent;
     private EditComponent clientLastNameComponent;
@@ -61,30 +53,33 @@ public class GuiApp extends JFrame{
     }
 
     private void initComponents() {
-        this.setPreferredSize(new Dimension(WIDTH_WINDOW,HEIGHT_WINDOW));
+        this.setPreferredSize(new Dimension(WINDOW_WIDTH,WINDOW_HEIGHT));
         this.setMinimumSize(this.getPreferredSize());
         this.setMaximumSize(this.getPreferredSize());
         this.setTitle("Shoe Shop");
         
         JTabbedPane managerTabbed = new JTabbedPane();
-        managerTabbed.setPreferredSize(new Dimension(WIDTH_WINDOW,HEIGHT_WINDOW));
+        managerTabbed.setPreferredSize(new Dimension(WINDOW_WIDTH,WINDOW_HEIGHT));
         managerTabbed.setMinimumSize(managerTabbed.getPreferredSize());
         managerTabbed.setMaximumSize(managerTabbed.getPreferredSize());
         this.add(managerTabbed);
         
         JPanel addModelPanel = new JPanel();
         managerTabbed.addTab("Добавить модель", addModelPanel);
-            addModelCaption = new CaptionComponent(WIDTH_WINDOW, 170, "Добавление обуви", 25, 1);
+            addModelCaption = new LabelComponent(WINDOW_WIDTH, 120, "Добавление обуви", 25, 1);
             addModelPanel.add(addModelCaption);
-            modelNameComponent = new EditComponent("Название обуви",270, 30, 250);
+            addModelInfo = new LabelComponent(WINDOW_WIDTH, 50, "", 15, 0);
+            addModelPanel.add(addModelInfo);
+            addModelInfo.getCaption().setForeground(Color.white);
+            modelNameComponent = new EditComponent(250, "Название обуви", WINDOW_WIDTH, 30);
             addModelPanel.add(modelNameComponent);
-            modelSizeComponent = new EditComponent("Размер обуви", 270, 30, 50);
+            modelSizeComponent = new EditComponent(50, "Размер обуви", WINDOW_WIDTH, 30);
             addModelPanel.add(modelSizeComponent);
-            modelPriceComponent = new EditComponent("Цена обуви", 270, 30, 80);
-            addModelPanel.add(modelPriceComponent);
-            modelFirmComponent = new EditComponent("Фирма обуви", 270, 30, 170);
+            modelFirmComponent = new EditComponent(200, "Фирма обуви", WINDOW_WIDTH, 30);
             addModelPanel.add(modelFirmComponent);
-            buttonComponent = new ButtonComponent("Добавить обувь", WIDTH_WINDOW, 140, 170);
+            modelPriceComponent = new EditComponent(70, "Цена обуви", WINDOW_WIDTH, 30);
+            addModelPanel.add(modelPriceComponent);
+            buttonComponent = new ButtonComponent("Добавить обувь", WINDOW_WIDTH, 155, 170);
             addModelPanel.add(buttonComponent);
             buttonComponent.getButton().addActionListener(new ActionListener() {
                 @Override
@@ -112,7 +107,7 @@ public class GuiApp extends JFrame{
                     }
                     if(modelFirmComponent.getEditor().getText().isEmpty()){
                         addModelInfo.getCaption().setForeground(Color.red);
-                        addModelInfo.getCaption().setText("Введите фирма обуви");
+                        addModelInfo.getCaption().setText("Введите фирму обуви");
                         return;
                     }
                     model.setShoeFirm(modelFirmComponent.getEditor().getText());
@@ -136,17 +131,19 @@ public class GuiApp extends JFrame{
         
         JPanel addClientPanel = new JPanel();
         managerTabbed.addTab("Добавить клиента", addClientPanel);
-            addClientCaption = new CaptionComponent(WIDTH_WINDOW/2, 180, "Добавление клиента", 25, 1);
+            addClientCaption = new LabelComponent(WINDOW_WIDTH, 120, "Добавление клиента", 25, 1);
             addClientPanel.add(addClientCaption);
-            clientNameComponent = new EditComponent("Имя", WIDTH_WINDOW/3+25, 30, 210);
+            addClientInfo = new LabelComponent(WINDOW_WIDTH, 50, "", 15, 0);
+            addClientPanel.add(addClientInfo);
+            clientNameComponent = new EditComponent(WINDOW_WIDTH/3, "Имя", WINDOW_WIDTH, 30);
             addClientPanel.add(clientNameComponent);
-            clientLastNameComponent = new EditComponent("Фамилия",  WIDTH_WINDOW/3+25, 30, 210);
+            clientLastNameComponent = new EditComponent(200, "Фамилия", WINDOW_WIDTH, 30);
             addClientPanel.add(clientLastNameComponent);
-            clientPhoneComponent = new EditComponent("Номер телефона", WIDTH_WINDOW/3+25, 30, 130);
+            clientPhoneComponent = new EditComponent(200, "Номер телефона", WINDOW_WIDTH, 30);
             addClientPanel.add(clientPhoneComponent);
-            clientMoneyComponent = new EditComponent("Количество денег", WIDTH_WINDOW/3+25, 30, 80);
+            clientMoneyComponent = new EditComponent(50, "Количество денег", WINDOW_WIDTH, 30);
             addClientPanel.add(clientMoneyComponent);
-            buttonComponent = new ButtonComponent("Добавить клиента", WIDTH_WINDOW, 140, 170);
+            buttonComponent = new ButtonComponent("Добавить клиента", WINDOW_WIDTH, 140, 170);
             addClientPanel.add(buttonComponent);
             buttonComponent.getButton().addActionListener(new ActionListener() {
                 @Override
@@ -201,14 +198,14 @@ public class GuiApp extends JFrame{
         JPanel buyModelPanel = new JPanel();
         buyModelPanel.setLayout(new BorderLayout());
         managerTabbed.addTab("Купить модель", buyModelPanel);
-            buyModelCaption = new CaptionComponent(WIDTH_WINDOW, 150, "Покупка модели", 25, 1);
+            buyModelCaption = new LabelComponent(WINDOW_WIDTH, 150, "Покупка модели", 25, 1);
             buyModelPanel.add(buyModelCaption);
-            modelsList = new ListModelsComponent(700, 120, WIDTH_WINDOW/2);
+            modelsList = new ListModelsComponent(150, "Модели", 200, 150);
             buyModelPanel.add(modelsList);
-            clientsList = new ListClientsComponent(700, 120, WIDTH_WINDOW/2);
-            buyModelPanel.add(clientsList, BorderLayout.EAST);
-            buyModelButton = new ButtonComponent("Совершить платеж",800, 700, 170);
-            buyModelPanel.add(buyModelButton, BorderLayout.EAST);
+            clientsList = new ListClientsComponent(600, "Покупатели", WINDOW_WIDTH, 350);
+            buyModelPanel.add(clientsList);
+            buyModelButton = new ButtonComponent("Совершить платеж", WINDOW_WIDTH, 30, 150);
+            buyModelPanel.add(buyModelButton);
             buyModelButton.getButton().addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent ae) {

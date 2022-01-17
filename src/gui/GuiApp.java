@@ -1,8 +1,10 @@
 package gui;
 
 import entity.Client;
+import entity.History;
 import entity.Model;
 import facade.ClientFacade;
+import facade.HistoryFacade;
 import facade.ModelFacade;
 import gui.components1.ButtonComponent;
 import gui.components1.CaptionComponent;
@@ -11,6 +13,9 @@ import gui.components1.ListClientsComponent;
 import gui.components1.ListModelsComponent;
 import java.awt.*;
 import java.awt.event.*;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
 import javax.swing.*;
         
 /**
@@ -27,22 +32,26 @@ public class GuiApp extends JFrame{
     private EditComponent modelSizeComponent;
     private EditComponent modelPriceComponent;
     private EditComponent modelFirmComponent;
-    private ListModelsComponent listModelsComponent;
     
     private CaptionComponent addModelCaption;
     private CaptionComponent addClientCaption;
     private CaptionComponent addModelInfo;
     private CaptionComponent addClientInfo;
+    private CaptionComponent buyModelCaption;
     
     private EditComponent clientNameComponent;
     private EditComponent clientLastNameComponent;
     private EditComponent clientPhoneComponent;
     private EditComponent clientMoneyComponent;
     
-    private CaptionComponent buyModelCaption;
     private ListModelsComponent modelsList;
     private ListClientsComponent clientsList;
     
+    private ButtonComponent buyModelButton;
+    
+    private Date localdateToDate(LocalDate dateToConvert){
+        return Date.from(dateToConvert.atStartOfDay(ZoneId.systemDefault()).toInstant());
+    }
 
     
     public GuiApp() {
@@ -127,15 +136,15 @@ public class GuiApp extends JFrame{
         
         JPanel addClientPanel = new JPanel();
         managerTabbed.addTab("Добавить клиента", addClientPanel);
-            addClientCaption = new CaptionComponent(WIDTH_WINDOW, 180, "Добавление клиента", 25, 1);
+            addClientCaption = new CaptionComponent(WIDTH_WINDOW/2, 180, "Добавление клиента", 25, 1);
             addClientPanel.add(addClientCaption);
-            clientNameComponent = new EditComponent("Имя", 310, 30, 210);
+            clientNameComponent = new EditComponent("Имя", WIDTH_WINDOW/3+25, 30, 210);
             addClientPanel.add(clientNameComponent);
-            clientLastNameComponent = new EditComponent("Фамилия", 310, 30, 210);
+            clientLastNameComponent = new EditComponent("Фамилия",  WIDTH_WINDOW/3+25, 30, 210);
             addClientPanel.add(clientLastNameComponent);
-            clientPhoneComponent = new EditComponent("Номер телефона", 310, 30, 130);
+            clientPhoneComponent = new EditComponent("Номер телефона", WIDTH_WINDOW/3+25, 30, 130);
             addClientPanel.add(clientPhoneComponent);
-            clientMoneyComponent = new EditComponent("Количество денег", 310, 30, 80);
+            clientMoneyComponent = new EditComponent("Количество денег", WIDTH_WINDOW/3+25, 30, 80);
             addClientPanel.add(clientMoneyComponent);
             buttonComponent = new ButtonComponent("Добавить клиента", WIDTH_WINDOW, 140, 170);
             addClientPanel.add(buttonComponent);
@@ -190,13 +199,58 @@ public class GuiApp extends JFrame{
             });
 
         JPanel buyModelPanel = new JPanel();
+        buyModelPanel.setLayout(new BorderLayout());
         managerTabbed.addTab("Купить модель", buyModelPanel);
-            buyModelCaption = new CaptionComponent(WIDTH_WINDOW, 140, "Покупка модели", 25, 1);
+            buyModelCaption = new CaptionComponent(WIDTH_WINDOW, 150, "Покупка модели", 25, 1);
             buyModelPanel.add(buyModelCaption);
-            modelsList = new ListModelsComponent("Модели", 10, 120, WIDTH_WINDOW/2-50);
+            modelsList = new ListModelsComponent(700, 120, WIDTH_WINDOW/2);
             buyModelPanel.add(modelsList);
-            clientsList = new ListClientsComponent("Клиенты", 400, 120, WIDTH_WINDOW/2-50);
-            buyModelPanel.add(clientsList);
+            clientsList = new ListClientsComponent(700, 120, WIDTH_WINDOW/2);
+            buyModelPanel.add(clientsList, BorderLayout.EAST);
+            buyModelButton = new ButtonComponent("Совершить платеж",800, 700, 170);
+            buyModelPanel.add(buyModelButton, BorderLayout.EAST);
+            buyModelButton.getButton().addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent ae) {
+                    History history = new History();
+                    
+                    if (clientsList.getList().isSelectionEmpty()) {
+                        buyModelCaption.getCaption().setText("Выберите покупателя");
+                        buyModelCaption.getCaption().setForeground(Color.red);
+                        return;
+                    }
+                    if (modelsList.getList().isSelectionEmpty()) {
+                        buyModelCaption.getCaption().setText("Выберите модель");
+                        buyModelCaption.getCaption().setForeground(Color.red);
+                        return;
+                    }
+                    if (history.getClient().getMoney() < history.getModel().getPrice()) {
+                        buyModelCaption.getCaption().setText("У покупателя недостаточно денежных средств");
+                        buyModelCaption.getCaption().setForeground(Color.red);
+                        return;
+                    }
+                    
+                    history.setClient(clientsList.getList().getSelectedValue());
+                    history.setModel(modelsList.getList().getSelectedValue());
+                    history.getClient().setMoney(history.getClient().getMoney() - history.getModel().getPrice());
+                    history.setBuy(localdateToDate(LocalDate.now()));
+                        
+                    HistoryFacade historyFacade = new HistoryFacade(History.class);
+                    ClientFacade clientFacade = new ClientFacade(Client.class);
+                    
+                    try {
+                        historyFacade.edit(history);
+                        buyModelCaption.getCaption().setText("Покупка успешно совершена!");
+                        buyModelCaption.getCaption().setForeground(Color.green);
+                        clientFacade.edit(history.getClient());
+                        clientsList.getList().clearSelection();
+                        modelsList.getList().clearSelection();
+                    } catch (Exception e) {
+                        buyModelCaption.getCaption().setText("Не удалось купить модель");
+                        buyModelCaption.getCaption().setForeground(Color.red);
+                    }
+                }
+                });
     }
     
     public static void main(String[] args) {

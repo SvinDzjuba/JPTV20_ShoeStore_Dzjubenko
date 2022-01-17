@@ -17,11 +17,11 @@ import javax.swing.JPanel;
 public class ButtonComponent extends JPanel{
     private JButton button;
     
-    public ButtonComponent(String text, int widthWindow, int heightPanel, int widthButton) {
-        initComponents(text, widthWindow, heightPanel, widthButton);
+    public ButtonComponent(String text, int widthWindow, int heightPanel, int widthButton, int heightButton) {
+        initComponents(text, widthWindow, heightPanel, widthButton, heightButton);
     }
 
-    private void initComponents(String text, int widthWindow, int heightPanel, int widthButton) {
+    private void initComponents(String text, int widthWindow, int heightPanel, int widthButton, int heightButton) {
        this.setPreferredSize(new Dimension(widthWindow, heightPanel));
        this.setMinimumSize(this.getPreferredSize());
        this.setMaximumSize(this.getPreferredSize());

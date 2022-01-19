@@ -70,7 +70,6 @@ public class GuiApp extends JFrame{
             addModelPanel.add(addModelCaption);
             addModelInfo = new LabelComponent(WINDOW_WIDTH, 50, "", 15, 0);
             addModelPanel.add(addModelInfo);
-            addModelInfo.getCaption().setForeground(Color.white);
             modelNameComponent = new EditComponent(250, "Название обуви", WINDOW_WIDTH, 30);
             addModelPanel.add(modelNameComponent);
             modelSizeComponent = new EditComponent(50, "Размер обуви", WINDOW_WIDTH, 30);

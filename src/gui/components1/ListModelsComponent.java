@@ -14,43 +14,34 @@ import java.awt.*;
  */
 
 public class ListModelsComponent extends JPanel{
-    private JLabel title;
     private JList<Model> list;
     
-    public ListModelsComponent(int widthList, String text, int widthWindow, int heightPanel) {
-        initComponents(widthList, text, widthWindow, heightPanel);
+    public ListModelsComponent(int widthWindow, int heightPanel) {
+        initComponents(widthWindow, heightPanel);
     }
 
-    private void initComponents(int widthList, String text, int widthWindow, int heightPanel) {
-        this.setPreferredSize(new Dimension(widthWindow, heightPanel));
+    private void initComponents(int widthWindow, int heightPanel) {
+        this.setPreferredSize(new Dimension(widthWindow,heightPanel));
         this.setMinimumSize(this.getPreferredSize());
         this.setMaximumSize(this.getPreferredSize());
         this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
         
-        title = new JLabel(text);
-        title.setPreferredSize(new Dimension(widthWindow/3, 25));
-        title.setMinimumSize(title.getPreferredSize());
-        title.setMaximumSize(title.getPreferredSize());
-        title.setHorizontalAlignment(JLabel.RIGHT);
-        title.setAlignmentY(TOP_ALIGNMENT);
-        title.setFont(new Font("Tahoma", 0, 12));
-        this.add(title);
-        
-        this.add(Box.createRigidArea(new Dimension(10,0)));
+        this.add(Box.createRigidArea(new Dimension(0,30)));
         
         list = new JList<>();
         list.setModel(getListModel());
         list.setCellRenderer(new ListModelsCellRenderer());
         list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         list.setLayoutOrientation(JList.VERTICAL);
+        list.setAlignmentX(LEFT_ALIGNMENT);
        
-       JScrollPane verticalScrollPane = new JScrollPane(list);
-       verticalScrollPane.setPreferredSize(new Dimension(widthWindow,heightPanel));
-       verticalScrollPane.setMinimumSize(verticalScrollPane.getPreferredSize());
-       verticalScrollPane.setMaximumSize(verticalScrollPane.getPreferredSize());
-       verticalScrollPane.setAlignmentX(LEFT_ALIGNMENT);
-       verticalScrollPane.setAlignmentY(TOP_ALIGNMENT);
-       this.add(verticalScrollPane);
+       JScrollPane ScrollPane = new JScrollPane(list);
+       ScrollPane.setPreferredSize(new Dimension(widthWindow,heightPanel));
+       ScrollPane.setMinimumSize(ScrollPane.getPreferredSize());
+       ScrollPane.setMaximumSize(ScrollPane.getPreferredSize());
+       ScrollPane.setAlignmentX(LEFT_ALIGNMENT);
+       ScrollPane.setAlignmentY(TOP_ALIGNMENT);
+       this.add(ScrollPane);
     }
 
 

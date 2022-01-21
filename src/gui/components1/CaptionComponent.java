@@ -8,10 +8,10 @@ package gui.components1;
 import java.awt.*;
 import javax.swing.*;
 
-public class LabelComponent extends JPanel{
+public class CaptionComponent extends JPanel{
     private JLabel caption;
     
-    public LabelComponent(int widthWindow, int heightPanel, String text, int fontSize, int fontStyle) {
+    public CaptionComponent(int widthWindow, int heightPanel, String text, int fontSize, int fontStyle) {
         initComponents(widthWindow, heightPanel, text, fontSize, fontStyle);
     }
 

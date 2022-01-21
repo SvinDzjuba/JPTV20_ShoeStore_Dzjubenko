@@ -25,11 +25,11 @@ public class GuiApp extends JFrame{
     private EditComponent modelPriceComponent;
     private EditComponent modelFirmComponent;
     
-    private LabelComponent addModelCaption;
-    private LabelComponent addClientCaption;
-    private LabelComponent addModelInfo;
-    private LabelComponent addClientInfo;
-    private LabelComponent buyModelCaption;
+    private CaptionComponent addModelCaption;
+    private CaptionComponent addClientCaption;
+    private CaptionComponent addModelInfo;
+    private CaptionComponent addClientInfo;
+    private CaptionComponent buyModelCaption;
     
     private EditComponent clientNameComponent;
     private EditComponent clientLastNameComponent;
@@ -40,6 +40,9 @@ public class GuiApp extends JFrame{
     private ListClientsComponent clientsList;
     
     private ButtonComponent buyModelButton;
+    private CaptionComponent modelLabel;
+    private CaptionComponent clientLabel;
+    private CaptionComponent buyModelInfo;
     
     private Date localdateToDate(LocalDate dateToConvert){
         return Date.from(dateToConvert.atStartOfDay(ZoneId.systemDefault()).toInstant());
@@ -66,19 +69,19 @@ public class GuiApp extends JFrame{
         
         JPanel addModelPanel = new JPanel();
         managerTabbed.addTab("Добавить модель", addModelPanel);
-            addModelCaption = new LabelComponent(WINDOW_WIDTH, 120, "Добавление обуви", 25, 1);
+            addModelCaption = new CaptionComponent(WINDOW_WIDTH, 130, "Добавление обуви", 25, 1);
             addModelPanel.add(addModelCaption);
-            addModelInfo = new LabelComponent(WINDOW_WIDTH, 50, "", 15, 0);
+            addModelInfo = new CaptionComponent(WINDOW_WIDTH, 40, "", 14,0);
             addModelPanel.add(addModelInfo);
-            modelNameComponent = new EditComponent(250, "Название обуви", WINDOW_WIDTH, 30);
+            modelNameComponent = new EditComponent("Название обуви",270, 30, 250);
             addModelPanel.add(modelNameComponent);
-            modelSizeComponent = new EditComponent(50, "Размер обуви", WINDOW_WIDTH, 30);
+            modelSizeComponent = new EditComponent("Размер обуви", 270, 30, 50);
             addModelPanel.add(modelSizeComponent);
-            modelFirmComponent = new EditComponent(200, "Фирма обуви", WINDOW_WIDTH, 30);
+            modelFirmComponent = new EditComponent("Фирма обуви", 270, 30, 170);
             addModelPanel.add(modelFirmComponent);
-            modelPriceComponent = new EditComponent(70, "Цена обуви", WINDOW_WIDTH, 30);
+            modelPriceComponent = new EditComponent("Цена обуви", 270, 30, 80);
             addModelPanel.add(modelPriceComponent);
-            buttonComponent = new ButtonComponent("Добавить обувь", WINDOW_WIDTH, 155, 170);
+            buttonComponent = new ButtonComponent("Добавить обувь", WINDOW_WIDTH, 140, 150);
             addModelPanel.add(buttonComponent);
             buttonComponent.getButton().addActionListener(new ActionListener() {
                 @Override
@@ -115,7 +118,7 @@ public class GuiApp extends JFrame{
                     try {
                         modelFacade.create(model);
                         addModelInfo.getCaption().setForeground(Color.BLUE);
-                        addModelInfo.getCaption().setText("Книга успешно добавлена");
+                        addModelInfo.getCaption().setText("Обувь успешно добавлена");
                         modelNameComponent.getEditor().setText("");
                         modelSizeComponent.getEditor().setText("");
                         modelPriceComponent.getEditor().setText("");
@@ -130,19 +133,19 @@ public class GuiApp extends JFrame{
         
         JPanel addClientPanel = new JPanel();
         managerTabbed.addTab("Добавить клиента", addClientPanel);
-            addClientCaption = new LabelComponent(WINDOW_WIDTH, 120, "Добавление клиента", 25, 1);
+            addClientCaption = new CaptionComponent(WINDOW_WIDTH, 130, "Добавление покупателя", 25, 1);
             addClientPanel.add(addClientCaption);
-            addClientInfo = new LabelComponent(WINDOW_WIDTH, 50, "", 15, 0);
+            addClientInfo = new CaptionComponent(WINDOW_WIDTH, 40, "", 14,0);
             addClientPanel.add(addClientInfo);
-            clientNameComponent = new EditComponent(WINDOW_WIDTH/3, "Имя", WINDOW_WIDTH, 30);
+            clientNameComponent = new EditComponent("Имя", WINDOW_WIDTH/3+25, 30, 210);
             addClientPanel.add(clientNameComponent);
-            clientLastNameComponent = new EditComponent(200, "Фамилия", WINDOW_WIDTH, 30);
+            clientLastNameComponent = new EditComponent("Фамилия",  WINDOW_WIDTH/3+25, 30, 210);
             addClientPanel.add(clientLastNameComponent);
-            clientPhoneComponent = new EditComponent(200, "Номер телефона", WINDOW_WIDTH, 30);
+            clientPhoneComponent = new EditComponent("Номер телефона", WINDOW_WIDTH/3+25, 30, 130);
             addClientPanel.add(clientPhoneComponent);
-            clientMoneyComponent = new EditComponent(50, "Количество денег", WINDOW_WIDTH, 30);
+            clientMoneyComponent = new EditComponent("Количество денег", WINDOW_WIDTH/3+25, 30, 80);
             addClientPanel.add(clientMoneyComponent);
-            buttonComponent = new ButtonComponent("Добавить клиента", WINDOW_WIDTH, 140, 170);
+            buttonComponent = new ButtonComponent("Добавить клиента",  WINDOW_WIDTH, 140, 150);
             addClientPanel.add(buttonComponent);
             buttonComponent.getButton().addActionListener(new ActionListener() {
                 @Override
@@ -195,15 +198,20 @@ public class GuiApp extends JFrame{
             });
 
         JPanel buyModelPanel = new JPanel();
-        buyModelPanel.setLayout(new BorderLayout());
         managerTabbed.addTab("Купить модель", buyModelPanel);
-            buyModelCaption = new LabelComponent(WINDOW_WIDTH, 150, "Покупка модели", 25, 1);
+            buyModelCaption = new CaptionComponent(WINDOW_WIDTH, 40, "Покупка модели", 25, 1);
             buyModelPanel.add(buyModelCaption);
-            modelsList = new ListModelsComponent(150, "Модели", 200, 150);
+            buyModelInfo = new CaptionComponent(WINDOW_WIDTH, 35, "", 15, 0);
+            buyModelPanel.add(buyModelInfo);
+            modelLabel = new CaptionComponent(WINDOW_WIDTH, 35, "Модели", 15, 0);
+            buyModelPanel.add(modelLabel);
+            modelsList = new ListModelsComponent(WINDOW_WIDTH-150, 128);
             buyModelPanel.add(modelsList);
-            clientsList = new ListClientsComponent(600, "Покупатели", WINDOW_WIDTH, 350);
+            clientLabel = new CaptionComponent(WINDOW_WIDTH, 35, "Покупатели", 15, 0);
+            buyModelPanel.add(clientLabel);
+            clientsList = new ListClientsComponent(WINDOW_WIDTH-150, 145);
             buyModelPanel.add(clientsList);
-            buyModelButton = new ButtonComponent("Совершить платеж", WINDOW_WIDTH, 30, 150);
+            buyModelButton = new ButtonComponent("Совершить платеж", WINDOW_WIDTH, 80, 150);
             buyModelPanel.add(buyModelButton);
             buyModelButton.getButton().addActionListener(new ActionListener() {
                 @Override
@@ -211,18 +219,18 @@ public class GuiApp extends JFrame{
                     History history = new History();
                     
                     if (clientsList.getList().isSelectionEmpty()) {
-                        buyModelCaption.getCaption().setText("Выберите покупателя");
-                        buyModelCaption.getCaption().setForeground(Color.red);
+                        buyModelInfo.getCaption().setText("Выберите покупателя");
+                        buyModelInfo.getCaption().setForeground(Color.red);
                         return;
                     }
                     if (modelsList.getList().isSelectionEmpty()) {
-                        buyModelCaption.getCaption().setText("Выберите модель");
-                        buyModelCaption.getCaption().setForeground(Color.red);
+                        buyModelInfo.getCaption().setText("Выберите модель");
+                        buyModelInfo.getCaption().setForeground(Color.red);
                         return;
                     }
                     if (history.getClient().getMoney() < history.getModel().getPrice()) {
-                        buyModelCaption.getCaption().setText("У покупателя недостаточно денежных средств");
-                        buyModelCaption.getCaption().setForeground(Color.red);
+                        buyModelInfo.getCaption().setText("У покупателя недостаточно денег");
+                        buyModelInfo.getCaption().setForeground(Color.red);
                         return;
                     }
                     
@@ -236,14 +244,14 @@ public class GuiApp extends JFrame{
                     
                     try {
                         historyFacade.edit(history);
-                        buyModelCaption.getCaption().setText("Покупка успешно совершена!");
-                        buyModelCaption.getCaption().setForeground(Color.green);
+                        buyModelInfo.getCaption().setText("Покупка успешно совершена!");
+                        buyModelInfo.getCaption().setForeground(Color.green);
                         clientFacade.edit(history.getClient());
                         clientsList.getList().clearSelection();
                         modelsList.getList().clearSelection();
                     } catch (Exception e) {
-                        buyModelCaption.getCaption().setText("Не удалось купить модель");
-                        buyModelCaption.getCaption().setForeground(Color.red);
+                        buyModelInfo.getCaption().setText("Не удалось купить модель");
+                        buyModelInfo.getCaption().setForeground(Color.red);
                     }
                 }
                 });

@@ -25,7 +25,7 @@ public abstract class AbstractFacade<T> {
     
     public void create(T entity){
         getEntityManager().getTransaction().begin();
-        getEntityManager().merge(entity);
+        getEntityManager().persist(entity);
         getEntityManager().getTransaction().commit();
     }
     public T find(Long id){

@@ -16,7 +16,7 @@ public class Gain implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private float AllMoney;
+    private double AllMoney;
 
     public Long getId() {
         return id;
@@ -26,11 +26,11 @@ public class Gain implements Serializable{
         this.id = id;
     }
 
-    public float getAllMoney() {
+    public double getAllMoney() {
         return AllMoney;
     }
 
-    public void setAllMoney(float AllMoney) {
+    public void setAllMoney(double AllMoney) {
         this.AllMoney = AllMoney;
     }
 

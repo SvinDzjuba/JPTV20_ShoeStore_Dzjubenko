@@ -23,7 +23,7 @@ public class ListClientsCellRenderer extends DefaultListCellRenderer{
                     ,"Имя: " + client.getFirstName() + "      "
                     ,"Фамилия: " + client.getLastName()+ "      "
                     ,"Номер телефона: " + client.getPhone()+ "      "
-                    ,"Количество денег: " + client.getMoney()+ "      "
+                    ,"Количество денег: " + client.getMoney()+ "$      "
             ));
             if(!isSelected){
                 label.setBackground(index % 2 == 0 ? background : defaultBackground);

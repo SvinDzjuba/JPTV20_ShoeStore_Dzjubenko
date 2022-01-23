@@ -14,7 +14,7 @@ public class Client implements Serializable{
     private String FirstName; 
     private String LastName;
     private String Phone;
-    private float Money;
+    private double Money;
 
     
     public Long getId() {
@@ -49,11 +49,11 @@ public class Client implements Serializable{
         this.Phone = Phone;
     }
 
-    public float getMoney() {
+    public double getMoney() {
         return Money;
     }
 
-    public void setMoney(float Money) {
+    public void setMoney(double Money) {
         this.Money = Money;
     }
 

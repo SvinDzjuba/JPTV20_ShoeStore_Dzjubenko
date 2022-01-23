@@ -10,20 +10,20 @@ import facade.ClientFacade;
 import facade.GainFacade;
 import facade.HistoryFacade;
 import facade.ModelFacade;
-import interfaces.Keeping;
+//import interfaces.Keeping;
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.ArrayList;
+//import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import tools.SaverToBase;
+//import tools.SaverToBase;
 //import tools.SaverToFile;
 
 
 public class Store {
     Scanner scanner = new Scanner(System.in);
-    float gain;
+    double gain;
     private ModelFacade modelFacade = new ModelFacade(Model.class);
     private ClientFacade clientFacade = new ClientFacade(Client.class);
     private GainFacade gainFacade = new GainFacade(Gain.class);
@@ -38,7 +38,7 @@ public class Store {
     Gain AllCash = new Gain();
     Calendar calendar = Calendar.getInstance();
     Date date = calendar.getTime();
-    float allcash;
+    double allcash;
     String[] months = {"€нварь", "февраль", "март", "апрель", "май", "июнь", "июль", "август", "сентебрь", "окт€брь", "но€брь", "декабрь"};
 
 
@@ -129,8 +129,7 @@ public class Store {
         System.out.printf("¬ведите фирму обуви: ");
         model.setShoeFirm(scanner.nextLine());
         System.out.printf("¬ведите цену обуви: ");
-
-        model.setPrice(scanner.nextFloat());
+        model.setPrice(scanner.nextDouble());
         System.out.println("================================");
             
         modelFacade.create(model);
@@ -149,7 +148,7 @@ public class Store {
         System.out.printf("¬ведите номер телефона клиента: ");
         client.setPhone(scanner.nextLine());
         System.out.printf("¬ведите количество денег клиента: ");
-        client.setMoney(scanner.nextFloat());scanner.nextLine();
+        client.setMoney(scanner.nextDouble());
         System.out.println("=================================");
 
         clientFacade.create(client);
@@ -190,8 +189,8 @@ public class Store {
             int numberClient = scanner.nextInt();scanner.nextLine();
             histories1.setModel(models.get(numberModel - 1));
             histories1.setClient(clients.get(numberClient - 1));
-            float MMoney = models.get(numberModel-1).getPrice();
-            float CMoney = clients.get(numberClient-1).getMoney();
+            double MMoney = models.get(numberModel-1).getPrice();
+            double CMoney = clients.get(numberClient-1).getMoney();
             if(CMoney >= MMoney){
                 clients.get(numberClient-1).setMoney(clients.get(numberClient-1).getMoney()-models.get(numberModel-1).getPrice());
                 gain += models.get(numberModel-1).getPrice();
@@ -315,7 +314,7 @@ public class Store {
                         break;
                     case 3:
                         System.out.println("«адайте новую цену модели");
-                        models.setPrice(scanner.nextFloat());scanner.nextLine();
+                        models.setPrice(scanner.nextDouble());scanner.nextLine();
                         modelFacade.edit(models);
                         //keeper.saveModels(models);
                         break;
@@ -401,7 +400,7 @@ public class Store {
             Client clients = clientFacade.find(number);
             if(choice4 == clients.getId()){
                 System.out.println("¬ведите сумму, которую хотите добавить клиенту:");
-                float givemoney = scanner.nextFloat();scanner.nextLine();
+                double givemoney = scanner.nextDouble();scanner.nextLine();
                 clients.setMoney(clients.getMoney() + givemoney);
                 System.out.println("-----------------");
                 System.out.println("“еперь у клиента "+clients.getMoney()+" долларов");
@@ -422,7 +421,7 @@ public class Store {
             System.out.println("¬ведите мес€ц, за который вывести весь доход на экран:");
             int month = scanner.nextInt();
             System.out.println("===============================");
-            float monthGain = 0;
+            double monthGain = 0;
             long number = scanner.nextLong();
             History histories = historyFacade.find(number);
             if (histories.getBuy().getMonth()+1 == month) {

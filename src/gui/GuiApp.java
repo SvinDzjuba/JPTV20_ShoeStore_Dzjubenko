@@ -9,6 +9,7 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
 import javax.swing.*;
+//import java.util.List;
         
 /**
  *
@@ -17,8 +18,6 @@ import javax.swing.*;
 public class GuiApp extends JFrame{
     public static final int WINDOW_WIDTH = 800;
     public static final int WINDOW_HEIGHT = 600;
-    private EditComponent captionComponent;
-    private ButtonComponent buttonComponent;
     
     private EditComponent modelNameComponent;
     private EditComponent modelSizeComponent;
@@ -30,6 +29,9 @@ public class GuiApp extends JFrame{
     private CaptionComponent addModelInfo;
     private CaptionComponent addClientInfo;
     private CaptionComponent buyModelCaption;
+    private CaptionComponent modelLabel;
+    private CaptionComponent clientLabel;
+    private CaptionComponent buyModelInfo;
     
     private EditComponent clientNameComponent;
     private EditComponent clientLastNameComponent;
@@ -40,9 +42,15 @@ public class GuiApp extends JFrame{
     private ListClientsComponent clientsList;
     
     private ButtonComponent buyModelButton;
-    private CaptionComponent modelLabel;
-    private CaptionComponent clientLabel;
-    private CaptionComponent buyModelInfo;
+    private ButtonComponent buttonComponent;
+   
+    private CaptionComponent editModelCaption;
+    private CaptionComponent editModelInfo;
+    private EditComponent editModelName;
+    private EditComponent editModelSize;
+    private EditComponent editModelFirm;
+    private EditComponent editModelPrice;
+    
     
     private Date localdateToDate(LocalDate dateToConvert){
         return Date.from(dateToConvert.atStartOfDay(ZoneId.systemDefault()).toInstant());
@@ -56,6 +64,7 @@ public class GuiApp extends JFrame{
     }
 
     private void initComponents() {
+        
         this.setPreferredSize(new Dimension(WINDOW_WIDTH,WINDOW_HEIGHT));
         this.setMinimumSize(this.getPreferredSize());
         this.setMaximumSize(this.getPreferredSize());
@@ -101,7 +110,7 @@ public class GuiApp extends JFrame{
                     }
                     model.setModelSize(modelSizeComponent.getEditor().getText());
                     try {
-                        model.setPrice(Float.parseFloat(modelPriceComponent.getEditor().getText()));
+                        model.setPrice(Double.parseDouble(modelPriceComponent.getEditor().getText()));
                     } catch (Exception ex) {
                         addModelInfo.getCaption().setForeground(Color.red);
                         addModelInfo.getCaption().setText("Введите цену обуви цифрами, если число не целое, пишите через '.'");
@@ -173,7 +182,7 @@ public class GuiApp extends JFrame{
                     client.setPhone(clientPhoneComponent.getEditor().getText());
                     //phone
                     try {
-                        client.setMoney(Float.parseFloat(clientPhoneComponent.getEditor().getText()));
+                        client.setMoney(Double.parseDouble(clientMoneyComponent.getEditor().getText()));
                     } catch (Exception ex) {
                         addClientInfo.getCaption().setForeground(Color.red);
                         addClientInfo.getCaption().setText("Введите количество денег, можно использовать '.'");
@@ -217,7 +226,7 @@ public class GuiApp extends JFrame{
                 @Override
                 public void actionPerformed(ActionEvent ae) {
                     History history = new History();
-                    
+ 
                     if (clientsList.getList().isSelectionEmpty()) {
                         buyModelInfo.getCaption().setText("Выберите покупателя");
                         buyModelInfo.getCaption().setForeground(Color.red);
@@ -228,11 +237,11 @@ public class GuiApp extends JFrame{
                         buyModelInfo.getCaption().setForeground(Color.red);
                         return;
                     }
-                    if (history.getClient().getMoney() < history.getModel().getPrice()) {
+                    if (history.getClient().getMoney() < history.getModel().getPrice()){
                         buyModelInfo.getCaption().setText("У покупателя недостаточно денег");
                         buyModelInfo.getCaption().setForeground(Color.red);
                         return;
-                    }
+                    }                    
                     
                     history.setClient(clientsList.getList().getSelectedValue());
                     history.setModel(modelsList.getList().getSelectedValue());
@@ -255,6 +264,24 @@ public class GuiApp extends JFrame{
                     }
                 }
                 });
+            
+            JPanel editModelPanel = new JPanel();
+                managerTabbed.addTab("Изменить модель", editModelPanel);
+                editModelCaption = new CaptionComponent(WINDOW_WIDTH, 40, "Изменение модели", 25, 1);
+                editModelPanel.add(editModelCaption);
+                editModelInfo = new CaptionComponent(WINDOW_WIDTH, 35, "", 15, 0);
+                editModelPanel.add(editModelInfo);
+                editModelPanel.add(modelsList);
+                editModelName = new EditComponent("Название", WINDOW_WIDTH/3+25, 30, 210);
+                editModelPanel.add(editModelName);
+                editModelSize = new EditComponent("Размер",  WINDOW_WIDTH/3+25, 30, 210);
+                editModelPanel.add(editModelSize);
+                editModelFirm = new EditComponent("Фирма", 270, 30, 170);
+                editModelPanel.add(editModelFirm);
+                editModelPrice = new EditComponent("Цена", 270, 30, 80);
+                editModelPanel.add(editModelPrice);
+                
+                
     }
     
     public static void main(String[] args) {

@@ -23,7 +23,7 @@ public class ListModelsCellRenderer extends DefaultListCellRenderer{
                     ,"Название: " + model.getModelName() + "  "
                     ,"Размер: " + model.getModelSize() + "US  "
                     ,"Фирма: " + model.getShoeFirm() + "  "
-                    ,"Цена: " + model.getPrice() + "  "
+                    ,"Цена: " + model.getPrice() + "$  "
             ));
             if(!isSelected){
                 label.setBackground(index % 2 == 0 ? background : defaultBackground);

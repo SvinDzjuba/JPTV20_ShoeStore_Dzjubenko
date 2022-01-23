@@ -13,7 +13,7 @@ public class Model implements Serializable{
     private Long id;
     private String ModelName;
     private String ModelSize;
-    private float Price;
+    private double Price;
     private String ShoeFirm;
     
     public Long getId() {
@@ -40,11 +40,11 @@ public class Model implements Serializable{
         this.ModelSize = ModelSize;
     }
 
-    public float getPrice() {
+    public double getPrice() {
         return Price;
     }
 
-    public void setPrice(float Price) {
+    public void setPrice(double Price) {
         this.Price = Price;
     }
 

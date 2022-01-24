@@ -50,6 +50,10 @@ public class GuiApp extends JFrame{
     private EditComponent editModelSize;
     private EditComponent editModelFirm;
     private EditComponent editModelPrice;
+    private ListModelsComponent editModelsList;
+    private ButtonComponent editModelButton;
+    private ModelFacade modelFacade;
+    private Model editModel;
     
     
     private Date localdateToDate(LocalDate dateToConvert){
@@ -236,13 +240,7 @@ public class GuiApp extends JFrame{
                         buyModelInfo.getCaption().setText("Выберите модель");
                         buyModelInfo.getCaption().setForeground(Color.red);
                         return;
-                    }
-                    if (history.getClient().getMoney() < history.getModel().getPrice()){
-                        buyModelInfo.getCaption().setText("У покупателя недостаточно денег");
-                        buyModelInfo.getCaption().setForeground(Color.red);
-                        return;
-                    }                    
-                    
+                    }       
                     history.setClient(clientsList.getList().getSelectedValue());
                     history.setModel(modelsList.getList().getSelectedValue());
                     history.getClient().setMoney(history.getClient().getMoney() - history.getModel().getPrice());
@@ -271,17 +269,66 @@ public class GuiApp extends JFrame{
                 editModelPanel.add(editModelCaption);
                 editModelInfo = new CaptionComponent(WINDOW_WIDTH, 35, "", 15, 0);
                 editModelPanel.add(editModelInfo);
-                editModelPanel.add(modelsList);
+                editModelsList = new ListModelsComponent(WINDOW_WIDTH-350, 128);
+                editModelPanel.add(editModelsList);
                 editModelName = new EditComponent("Название", WINDOW_WIDTH/3+25, 30, 210);
                 editModelPanel.add(editModelName);
                 editModelSize = new EditComponent("Размер",  WINDOW_WIDTH/3+25, 30, 210);
                 editModelPanel.add(editModelSize);
-                editModelFirm = new EditComponent("Фирма", 270, 30, 170);
+                editModelFirm = new EditComponent("Фирма",WINDOW_WIDTH/3+25, 30, 170);
                 editModelPanel.add(editModelFirm);
-                editModelPrice = new EditComponent("Цена", 270, 30, 80);
-                editModelPanel.add(editModelPrice);
-                
-                
+                editModelPrice = new EditComponent("Цена", WINDOW_WIDTH/3+25, 30, 80);
+                editModelPanel.add(editModelPrice);     
+                editModelButton = new ButtonComponent("Изменить модель", WINDOW_WIDTH, 80, 150);
+                editModelPanel.add(editModelButton);
+                editModelButton.getButton().addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent ae) {
+                        modelFacade = new ModelFacade(Model.class);
+                        Model updateModel = modelFacade.find(editModel.getId());
+                        
+                        editModelInfo.getCaption().setText("");
+
+                        if(editModelName.getEditor().getText().isEmpty()){
+                            editModelInfo.getCaption().setText("Это поле обязательное");
+                            editModelInfo.getCaption().setForeground(Color.red);
+                            return;
+                        }
+                        updateModel.setModelName(editModelName.getEditor().getText());
+                        if(editModelSize.getEditor().getText().isEmpty()){
+                            editModelInfo.getCaption().setText("Это поле обязательное");
+                            editModelInfo.getCaption().setForeground(Color.red);
+                            return;
+                        }
+                        updateModel.setModelSize(editModelSize.getEditor().getText());
+                        if(editModelFirm.getEditor().getText().isEmpty()){
+                            editModelInfo.getCaption().setText("Это поле обязательное");
+                            editModelInfo.getCaption().setForeground(Color.red);
+                            return;
+                        }
+                        updateModel.setShoeFirm(editModelFirm.getEditor().getText());
+                        try {
+                            updateModel.setPrice(Double.parseDouble(editModelPrice.getEditor().getText()));
+                        } catch (Exception ex) {
+                            addClientInfo.getCaption().setForeground(Color.red);
+                            addClientInfo.getCaption().setText("Введите количество денег, можно использовать '.'");
+                            return;
+                        }
+                        
+                        ModelFacade modelFacade = new ModelFacade(Model.class);
+                        try {
+                            modelFacade.edit(updateModel);
+                            buyModelInfo.getCaption().setText("Модель изменена");
+                            buyModelInfo.getCaption().setForeground(Color.green);
+                            modelsList.getList().clearSelection();
+                        } catch (Exception e) {
+                            buyModelInfo.getCaption().setText("Не удалось изменить модель");
+                            buyModelInfo.getCaption().setForeground(Color.red);
+                    }
+
+                    }
+                });
+                   
     }
     
     public static void main(String[] args) {

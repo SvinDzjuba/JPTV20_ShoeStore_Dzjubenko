@@ -19,11 +19,12 @@ public class ListModelsCellRenderer extends DefaultListCellRenderer{
         if(component instanceof JLabel){
             JLabel label = (JLabel) component;
             Model model = (Model) value;
-            label.setText(String.format("%s %s %s %s"
+            label.setText(String.format("%s %s %s %s %s"
+                    ,"{" + model.getId()+ ".  "
                     ,"Название: " + model.getModelName() + "  "
                     ,"Размер: " + model.getModelSize() + "US  "
                     ,"Фирма: " + model.getShoeFirm() + "  "
-                    ,"Цена: " + model.getPrice() + "$  "
+                    ,"Цена: " + model.getPrice() + "$}"
             ));
             if(!isSelected){
                 label.setBackground(index % 2 == 0 ? background : defaultBackground);

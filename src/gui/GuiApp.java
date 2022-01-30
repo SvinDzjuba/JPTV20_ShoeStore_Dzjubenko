@@ -53,6 +53,8 @@ public class GuiApp extends JFrame{
     private ListModelsComponent editModelsList;
     private ButtonComponent editModelButton;
     
+    private ModelFacade modelFacade;
+    private Model editModel;
     
     private Date localdateToDate(LocalDate dateToConvert){
         return Date.from(dateToConvert.atStartOfDay(ZoneId.systemDefault()).toInstant());
@@ -63,6 +65,7 @@ public class GuiApp extends JFrame{
         initComponents();
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
+        modelFacade = new ModelFacade(Model.class);
     }
 
     private void initComponents() {
@@ -134,6 +137,9 @@ public class GuiApp extends JFrame{
                         modelSizeComponent.getEditor().setText("");
                         modelPriceComponent.getEditor().setText("");
                         modelFirmComponent.getEditor().setText("");
+                        modelsList.revalidate();
+                        modelsList.repaint();
+                        
                     } catch (Exception ex) {
                         addModelInfo.getCaption().setForeground(Color.RED);
                         addModelInfo.getCaption().setText("Не удалось добавить модель");
@@ -201,6 +207,8 @@ public class GuiApp extends JFrame{
                         clientLastNameComponent.getEditor().setText("");
                         clientPhoneComponent.getEditor().setText("");
                         clientMoneyComponent.getEditor().setText("");
+                        clientsList.revalidate();
+                        clientsList.repaint();
                     } catch (Exception ex) {
                         addClientInfo.getCaption().setForeground(Color.RED);
                         addClientInfo.getCaption().setText("Не удалось добавить клиента");
@@ -239,28 +247,26 @@ public class GuiApp extends JFrame{
                         buyModelInfo.getCaption().setForeground(Color.red);
                         return;
                     }
+                    HistoryFacade historyFacade = new HistoryFacade(History.class);
+                    
                     if(clientsList.getList().getSelectedValuesList().get(0).getMoney() >= modelsList.getList().getSelectedValuesList().get(0).getPrice()){
                         history.setClient(clientsList.getList().getSelectedValue());
                         history.setModel(modelsList.getList().getSelectedValue());
                         history.getClient().setMoney(history.getClient().getMoney() - history.getModel().getPrice());
-                        history.setBuy(localdateToDate(LocalDate.now()));                      
+                        history.setBuy(localdateToDate(LocalDate.now()));    
+                        historyFacade.create(history);
+                        buyModelInfo.getCaption().setText("Покупка успешно совершена!");
+                        buyModelInfo.getCaption().setForeground(Color.green);                      
                         clientsList.revalidate();
                         clientsList.repaint();
                     }
-                        
-                    HistoryFacade historyFacade = new HistoryFacade(History.class);
-                    ClientFacade clientFacade = new ClientFacade(Client.class);
-                    
-                    try {
-                        historyFacade.create(history);
-                        buyModelInfo.getCaption().setText("Покупка успешно совершена!");
-                        buyModelInfo.getCaption().setForeground(Color.green);
-                        clientsList.getList().clearSelection();
-                        modelsList.getList().clearSelection();
-                    } catch (Exception e) {
+                    if(clientsList.getList().getSelectedValuesList().get(0).getMoney() < modelsList.getList().getSelectedValuesList().get(0).getPrice()){
                         buyModelInfo.getCaption().setText("Не удалось купить модель");
                         buyModelInfo.getCaption().setForeground(Color.red);
                     }
+                    
+                    clientsList.getList().clearSelection();
+                    modelsList.getList().clearSelection();
                 }
                 });
             
@@ -285,24 +291,24 @@ public class GuiApp extends JFrame{
                 editModelButton.getButton().addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent ae) {
-                        Model model = new Model();
+                        Model model = modelFacade.find(editModel.getId());
                         
                         editModelInfo.getCaption().setText("");
 
                         if(editModelName.getEditor().getText().isEmpty()){
-                            editModelInfo.getCaption().setText("Это поле обязательное");
+                            editModelInfo.getCaption().setText("Введиоте название модели");
                             editModelInfo.getCaption().setForeground(Color.red);
                             return;
                         }
                         model.setModelName(editModelName.getEditor().getText());
                         if(editModelSize.getEditor().getText().isEmpty()){
-                            editModelInfo.getCaption().setText("Это поле обязательное");
+                            editModelInfo.getCaption().setText("Введите размер модели");
                             editModelInfo.getCaption().setForeground(Color.red);
                             return;
                         }
                         model.setModelSize(editModelSize.getEditor().getText());
                         if(editModelFirm.getEditor().getText().isEmpty()){
-                            editModelInfo.getCaption().setText("Это поле обязательное");
+                            editModelInfo.getCaption().setText("Введите название фирмы");
                             editModelInfo.getCaption().setForeground(Color.red);
                             return;
                         }
@@ -310,23 +316,24 @@ public class GuiApp extends JFrame{
                         try {
                             model.setPrice(Double.parseDouble(editModelPrice.getEditor().getText()));
                         } catch (Exception ex) {
-                            addClientInfo.getCaption().setForeground(Color.red);
-                            addClientInfo.getCaption().setText("Введите цену модели");
+                            editModelInfo.getCaption().setForeground(Color.red);
+                            editModelInfo.getCaption().setText("Введите цену модели");
                             return;
                         }
                         
                         ModelFacade modelFacade = new ModelFacade(Model.class);
-                        try {
+                        try{
                             modelFacade.edit(model);
                             editModelInfo.getCaption().setText("Модель изменена");
                             editModelInfo.getCaption().setForeground(Color.blue);
                             modelsList.getList().clearSelection();
-                        } catch (Exception e) {
-                            editModelInfo.getCaption().setText("Не удалось изменить модель");
-                            editModelInfo.getCaption().setForeground(Color.red);
-                        }
-                    }
-                    
+                            editModelsList.revalidate();
+                            editModelsList.repaint();
+                        } catch (Exception ex) {
+                            editModelInfo.getCaption().setForeground(Color.RED);
+                            editModelInfo.getCaption().setText("Книгу изменить не удалось");
+                }
+                    }     
                 });
                    
     }
